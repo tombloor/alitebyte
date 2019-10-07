@@ -28,9 +28,11 @@ url: "https://alitebyte.com" # the base hostname & protocol for your site, e.g. 
 github_username:  tombloor
 
 # Build settings
-theme: minima
+#theme: minima
 plugins:
   - jekyll-feed
+
+permalink: /:categories/:year/:month/:day/:title/
 
 # Exclude from processing.
 # The following items will not be processed, by default.
