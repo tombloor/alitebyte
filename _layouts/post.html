@@ -3,10 +3,7 @@ layout: default
 ---
 
 <a href='/index.html'>&lt; Back to posts</a>
-<h2 class='post-heading'>
-    {{ page.title }}
-    <small class='text-muted'>{{ page.date | date_to_string }}</small>
-</h2>
+{% include posts/heading.html date=page.date title=page.title %}
 <div>
     {{ content }}
 </div>

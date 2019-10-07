@@ -7,10 +7,7 @@ title: Home
 {% for post in site.posts %}
     <div class='post-summary'>
         <a class='post-heading' href='{{ post.url }}'>
-            <h2>
-                {{ post.title }}
-                <small class='text-muted'>{{ post.date | date_to_string }}</small>
-            </h2>
+            {% include posts/heading.html date=post.date title=post.title %}
         </a>
         <p>{{ post.excerpt }}</p>
         <a href='{{ post.url }}'>Read More...</a>
