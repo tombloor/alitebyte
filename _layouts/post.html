@@ -3,9 +3,9 @@ layout: default
 ---
 
 <a href='/index.html'>&lt; Back to posts</a>
-<h2>
+<h2 class='post-heading'>
     {{ page.title }}
-    <small>{{ page.date | date_to_string }}</small>
+    <small class='text-muted'>{{ page.date | date_to_string }}</small>
 </h2>
 <div>
     {{ content }}
