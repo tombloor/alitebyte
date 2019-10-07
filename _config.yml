@@ -31,6 +31,7 @@ github_username:  tombloor
 #theme: minima
 plugins:
   - jekyll-feed
+  - jemoji
 
 permalink: /:categories/:year/:month/:day/:title/
 
