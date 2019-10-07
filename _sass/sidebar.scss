@@ -1,5 +1,20 @@
-$sidebar-background: rgb(182, 45, 201);
+$sidebar-background: rgb(102, 0, 153);
 
 #sidebar {
-    background-color: $sidebar-background;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background: $sidebar-background;
+    color: #fff;
+    transition: all 0.3s;
+    padding: 20px;
+}
+
+#sidebar-header {
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.5em;
 }

@@ -3,5 +3,11 @@
 $body-background: #ddd;
 
 body {
+    font-family: "Lucida Console", "Arial";
     background-color: $body-background;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
 }
