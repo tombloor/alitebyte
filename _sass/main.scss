@@ -1,13 +1,29 @@
 @import "sidebar";
+@import "posts";
 
 $body-background: #ddd;
 
 body {
-    font-family: "Lucida Console", "Arial";
+    font-family: 'Source Sans Pro', sans-serif;
     background-color: $body-background;
+}
+
+.highlight .gutter pre {
+    color: #e83e8c;
+    margin: 5px;
+}
+.highlight .code pre {
+    margin: 5px;
 }
 
 .wrapper {
     display: flex;
     width: 100%;
+}
+
+#page {
+    padding: 1rem 0;
+    width: 80vw;
+    margin: auto;
+    min-height: 100vh;
 }
