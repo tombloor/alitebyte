@@ -8,16 +8,6 @@ body {
     background-color: $body-background;
 }
 
-.highlight .gutter pre {
-    color: #e83e8c;
-}
-.highlight pre {
-    margin: 5px;
-}
-.highlight > pre {
-    padding: 5px;
-}
-
 .wrapper {
     display: flex;
     width: 100%;
