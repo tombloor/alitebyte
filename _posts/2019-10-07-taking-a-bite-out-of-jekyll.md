@@ -2,6 +2,8 @@
 title: "Taking a bite out of Jekyll - Part 1"
 slug: "taking-a-bite-jekyll-1"
 layout: post
+categories: jekyll
+date: 2019-10-08 20:47:00 -0500
 excerpt_separator: <!--more-->
 ---
 
@@ -101,4 +103,3 @@ Blink and you'll miss it!
 That's all it takes to build the site and publish it to `http://localhost:4000`. What's even better is while that command is running, if you modify any of your sites files it will automatically rebuild and republish without you having to do a thing.
 
 So now that we have a basic `Jekyll` site set up and viewable, the next step is to customise the look and feel. We'll tackle that in part 2.
-
