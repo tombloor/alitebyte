@@ -3,7 +3,9 @@ layout: default
 title: Home
 ---
 
-<h1 class='display-1'>A Lite Byte</h1>
+<h1 class='display-2'>
+    {{site.title}}
+</h1>
 {% for post in site.posts %}
     <div class='post-summary'>
         <a class='post-heading' href='{{ post.url }}'>

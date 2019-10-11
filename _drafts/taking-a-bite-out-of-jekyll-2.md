@@ -25,7 +25,19 @@ Now that we know what we're aiming for, let's get started.
 
 `Jekyll` uses a template building block approach when it comes to building the site. I'm not going to try and re-explain the structure of a `Jekyll` site as that is all covered in great detail in the official [documentation](https://jekyllrb.com/docs/).
 
-Let's create our default layout file `_layouts/default.html` and add some boilerplate html to check it is working
+Let's create our default layout file `_layouts/default.html` and add some boilerplate html to check it is working:
+
+{% highlight html linenos %}
+<!doctype html>
+<html>
+    <head>
+        <title>Hello, world!</title>
+    </head>
+    <body>
+        <h1>Hello, world!</h1>
+    </body>
+</html>
+{% endhighlight %}
 
 ## Bootstrap
 
