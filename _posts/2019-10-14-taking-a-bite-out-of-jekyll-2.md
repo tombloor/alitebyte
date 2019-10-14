@@ -3,7 +3,7 @@ title: "Taking a bite out of Jekyll - Part 2"
 slug: "taking-a-bite-jekyll-2"
 layout: post
 categories: jekyll
-#date: 2019-10-09 20:47:00 -0500
+date: 2019-10-14 20:58:00 -0500
 excerpt_separator: <!--more-->
 ---
 
@@ -183,3 +183,132 @@ layout: default
 </div>
 <a href='/index.html'>&lt; Back to posts</a>
 {% endhighlight %}
+
+Now that we've got a dedicated post page to show the content, we don't need to show it all in the posts list. By default there is the option to just render the first block of text in a post by using `{post.excerpt}` instead of `{post.content}`. You can also specify an excerpt property in the front matter of your post, or you can place a marker where you want the excerpt to stop, like so.
+
+```markdown
+---
+title: 'Test Post 1'
+excerpt_separator: <!--more-->
+---
+This is a test post.
+
+With a few of paragraphs.
+<!--more-->
+Bye bye.
+```
+
+(Note, the excerpt separator can be anything you like)
+
+Now if we change the `index.html` page, this will render the first two blocks of text as our excerpt and we can add a link to view the full post. While we're making this change you've already probably noticed that we're repeating ourselves when we're rendering the post header. We use exactly the same code on the post page as the posts list. Let's take that code out into an includes so we can reuse it. Create folder called `_includes` and add a `heading.html` file.
+
+{% highlight html linenos %}
+{% raw %}
+<h2 class='post-heading'>
+    {{ include.title }}<br/>
+    <small class='text-muted'>{{ include.date | date_to_string }}</small>
+</h2>
+{% endraw %}
+{% endhighlight %}
+
+The `include.` object gives us access to the data of the post or page that is currently being rendered (so we could reuse this code anywhere that has the required properties in it's front matter).
+
+Now let's add this to our `index.html` page, and also make the change to show post excerpts rather than content.
+
+{% highlight html linenos %}
+---
+layout: default
+title: Home
+---
+{% raw %}
+<h1 class='display-2'>
+    {{site.title}}
+</h1>
+{% for post in site.posts %}
+    <div class='post-summary'>
+        <a class='post-heading' href='{{ post.url }}'>
+            {% include heading.html date=post.date title=post.title %}
+        </a>
+        <p>{{ post.excerpt }}</p>
+        <a href='{{ post.url }}'>Read More...</a>
+    </div>
+{% endfor %}
+{% endraw %}
+{% endhighlight %}
+
+And don't forget to change the `post.html` layout file to use our new heading.
+
+{% highlight html linenos %}
+---
+layout: default
+---
+{% raw %}
+<a href='/index.html'>&lt; Back to posts</a>
+{% include heading.html date=page.date title=page.title %}
+<div>
+    {{ content }}
+</div>
+<a href='/index.html'>&lt; Back to posts</a>
+{% endraw %}
+{% endhighlight %}
+
+## Final touches
+
+So now we've got our site structure complete, let's add some basic styles to make it look a little nicer. `Jekyll` supports `SASS` and `SCSS` out of the box. It will automatically compile any files found in the `_sass` directory, so let's create that now and add a `main.scss` file.
+
+I'm not doing anything fancy with my styles yet, just changing the body background, using a different font and playing with some of the spacing. I'll be adding a lot more to this as I add features to the site.
+
+{% highlight scss linenos %}
+$body-background: #ddd;
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    background-color: $body-background;
+}
+
+.post-summary {
+    margin-bottom: 1rem;
+}
+
+a.post-heading {
+    color: #222;
+    text-decoration: none;
+}
+a.post-heading:hover {
+    color: #3e3e3e;
+    text-decoration: none;
+}
+
+h2.post-heading {
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 2px;
+}
+{% endhighlight %}
+
+Now let's add another file to import these styles into `assets/css`. I've called mine `styles.scss`.
+
+{% highlight scss linenos %}
+---
+---
+
+@import "main";
+{% endhighlight %}
+
+Note the empty front matter at the start of the file, this is essential as it tells `Jekyll` that it needs to process this file. Without this, `Jekyll` would not process any `scss` files that were outside the `_scss` directory.
+
+Finally let's reference this file in the head of our `default.html` layout.
+
+{% highlight html linenos %}
+...
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ site.title }}</title>
+    <link rel='stylesheet' href='/assets/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/assets/css/styles.css' />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+</head>
+...
+{% endhighlight %}
+
+And there we have it, and incredibly simple `Jekyll` blog to get us started. As I get more content on here and start to introduce new features or make significant changes, I'll probably write up a post outlining the process. One feature which I'll definitely be looking into soon is the addition of a comments system, which is certainly not as simple as in some of the database driven blogging platforms, but certainly achievable.
