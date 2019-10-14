@@ -3,6 +3,9 @@ title: "Taking a bite out of Jekyll - Part 1"
 slug: "taking-a-bite-jekyll-1"
 layout: post
 categories: jekyll
+tags: 
+    - blogging
+    - web
 date: 2019-10-08 20:47:00 -0500
 excerpt_separator: <!--more-->
 ---

@@ -3,7 +3,10 @@ title: "Taking a bite out of Jekyll - Part 2"
 slug: "taking-a-bite-jekyll-2"
 layout: post
 categories: jekyll
-date: 2019-10-14 20:58:00 -0500
+tags: 
+    - blogging
+    - web
+date: 2019-10-14 10:58:00 -0500
 excerpt_separator: <!--more-->
 ---
 
@@ -17,8 +20,14 @@ In the last part we went about setting up a simple `Jekyll` site and publishing 
 
 I would like to think that by the time you're reading this I will have managed to make considerable progress on this theme, so I'll include some pictures below to show you what we're aiming for by the end of this post.
 
-(INSERT PICTURES HERE)
-*Humble beginnings*
+<div class='row'>
+    <div class='col-sm'>
+        <img class='img-fluid img-thumbnail' src='/assets/img/new-jekyll-post-list-styled.png' alt='Final Post List'/>
+    </div>
+    <div class='col-sm'>
+        <img class='img-fluid img-thumbnail' src='/assets/img/new-jekyll-post-styled.png' alt='Final Post' />
+    </div>
+</div>
 
 Now that we know what we're aiming for, let's get started.
 
@@ -49,7 +58,19 @@ Let's create our default layout file `_layouts/default.html` and add some boiler
 </html>
 {% endhighlight %}
 
-> (INSERT PICTURE HERE)
+We also need a `index.html` file in the root of our site. `Jekyll` automatically creates `index.markdown` for you, but for our test we'll delete it and do things our way. The file should be empty for now, except for a single line of front matter.
+
+{% highlight html linenos %}
+---
+layout: default
+---
+{% endhighlight %}
+
+<div class='row'>
+    <div class='col-8 mx-auto'>
+        <img class='img-fluid img-thumbnail' src='/assets/img/new-jekyll-hello-world.png' alt='Hello, world!'/>
+    </div>
+</div>
 
 Now let's get ready for the next step by adding some folders to hold our stylesheets and `javascript` assets. I organised them in the structure below:
 
@@ -127,19 +148,20 @@ So now we've got a basic default layout, lets move onto some content. A pretty e
 layout: default
 title: Home
 ---
-
+{% raw %}
 <h1 class='display-2'>
-    {% raw %}{{site.title}}{% endraw %}
+    {{site.title}}
 </h1>
-{% raw %}{% for post in site.posts %}{% endraw %}
+{% for post in site.posts %}
     <div class='post-summary'>
         <h2 class='post-heading'>
-            {% raw %}{{ post.title }}<br/>{% endraw %}
-            <small class='text-muted'>{% raw %}{{ post.date | date_to_string }}{% endraw %}</small>
+            {{ post.title }}<br/>
+            <small class='text-muted'>{{ post.date | date_to_string }}</small>
         </h2>
         {{ post.content }}
     </div>
-{% raw %}{% endfor %}{% endraw %}
+{% endfor %}
+{% endraw %}
 {% endhighlight %}
 
 It's probably not going to look very impressive if we don't have any posts, so lets add some dummy ones. Create a new folder called `_drafts` in the root of your site, then make a file called `test-post.md` with the following contents.
@@ -161,8 +183,11 @@ Copy it a couple of times, change the filenames, titles and content a little to 
 $ bundle exec jekyll serve --drafts
 ```
 
-(IMAGE SHOWING THE POST LIST)
-*And there they are*
+<div class='row'>
+    <div class='col mx-auto'>
+        <img class='img-fluid img-thumbnail' src='/assets/img/new-jekyll-post-list.png' alt='WIP Post List'/>
+    </div>
+</div>
 
 Depending on how minimalist you want to be you could stop right there and just start adding posts, but I want to go a little bit further than just one page with all my posts before I actually start writing. Rather than showing the whole post in that list, I'd rather just show an excerpt and then have the rest of the post on it's own page. So let's do that.
 
@@ -252,6 +277,8 @@ layout: default
 {% endraw %}
 {% endhighlight %}
 
+Once you've done this, you'll need to tell the posts to use the new layout. In the front matter of your test posts add a `layout` parameter and set it to `post`.
+
 ## Final touches
 
 So now we've got our site structure complete, let's add some basic styles to make it look a little nicer. `Jekyll` supports `SASS` and `SCSS` out of the box. It will automatically compile any files found in the `_sass` directory, so let's create that now and add a `main.scss` file.
@@ -299,6 +326,7 @@ Note the empty front matter at the start of the file, this is essential as it te
 Finally let's reference this file in the head of our `default.html` layout.
 
 {% highlight html linenos %}
+{% raw %}
 ...
 <head>
     <meta charset="utf-8">
@@ -309,6 +337,7 @@ Finally let's reference this file in the head of our `default.html` layout.
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 </head>
 ...
+{% endraw %}
 {% endhighlight %}
 
-And there we have it, and incredibly simple `Jekyll` blog to get us started. As I get more content on here and start to introduce new features or make significant changes, I'll probably write up a post outlining the process. One feature which I'll definitely be looking into soon is the addition of a comments system, which is certainly not as simple as in some of the database driven blogging platforms, but certainly achievable.
+And there we have it, and incredibly simple `Jekyll` blog to get us started. Whenever I get more content on here and start to introduce more features, I'll probably write up a posts outlining the process for the more significant ones. One feature which I'll definitely be looking into soon is the addition of a comments system, which is certainly not as simple as in some of the database driven blogging platforms, but definitely achievable.
