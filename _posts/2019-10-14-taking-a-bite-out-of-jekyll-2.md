@@ -22,10 +22,10 @@ I would like to think that by the time you're reading this I will have managed t
 
 <div class='row'>
     <div class='col-sm'>
-        <img class='img-fluid img-thumbnail' src='/assets/img/new-jekyll-post-list-styled.png' alt='Final Post List'/>
+        {% responsive_image path: assets/img/new-jekyll-post-list-styled.png class: 'img-fluid img-thumbnail' alt: 'Final Post List' %}
     </div>
     <div class='col-sm'>
-        <img class='img-fluid img-thumbnail' src='/assets/img/new-jekyll-post-styled.png' alt='Final Post' />
+        {% responsive_image path: assets/img/new-jekyll-post-styled.png class: 'img-fluid img-thumbnail' alt: 'Final Post' %}
     </div>
 </div>
 
@@ -68,7 +68,7 @@ layout: default
 
 <div class='row'>
     <div class='col-8 mx-auto'>
-        <img class='img-fluid img-thumbnail' src='/assets/img/new-jekyll-hello-world.png' alt='Hello, world!'/>
+        {% responsive_image path: assets/img/new-jekyll-hello-world.png class: 'img-fluid img-thumbnail' alt: 'Hello, world!' %}
     </div>
 </div>
 
@@ -184,8 +184,8 @@ $ bundle exec jekyll serve --drafts
 ```
 
 <div class='row'>
-    <div class='col mx-auto'>
-        <img class='img-fluid img-thumbnail' src='/assets/img/new-jekyll-post-list.png' alt='WIP Post List'/>
+    <div class='col-8 mx-auto'>
+        {% responsive_image path: assets/img/new-jekyll-post-list.png class: 'img-fluid img-thumbnail' alt: 'WIP Post List' %}
     </div>
 </div>
 
