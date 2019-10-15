@@ -6,7 +6,7 @@ categories: jekyll
 tags: 
     - blogging
     - web
-date: 2019-10-14 10:58:00 -0500
+date: 2019-10-15 19:30:00 -0500
 excerpt_separator: <!--more-->
 ---
 
@@ -21,10 +21,10 @@ In the last part we went about setting up a simple `Jekyll` site and publishing 
 I would like to think that by the time you're reading this I will have managed to make considerable progress on this theme, so I'll include some pictures below to show you what we're aiming for by the end of this post.
 
 <div class='row'>
-    <div class='col-sm'>
+    <div class='col-md'>
         {% responsive_image path: assets/img/new-jekyll-post-list-styled.png class: 'img-fluid img-thumbnail' alt: 'Final Post List' %}
     </div>
-    <div class='col-sm'>
+    <div class='col-md'>
         {% responsive_image path: assets/img/new-jekyll-post-styled.png class: 'img-fluid img-thumbnail' alt: 'Final Post' %}
     </div>
 </div>

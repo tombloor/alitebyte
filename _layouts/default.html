@@ -11,8 +11,24 @@
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     </head>
     <body>
+        <nav id='top-nav' class='navbar navbar-expand-lg navbar-dark'>
+            <a class="navbar-brand" href="/index.html">{{ site.title }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#top-nav-content" aria-controls="top-nav-content" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id='top-nav-content' class='collapse navbar-collapse'>
+                <ul class='navbar-nav mr-auto'>
+                    {% for item in site.navigation %}
+                        <li class="nav-item {% if page.url == item.href %}active{% endif %}">
+                            <a class="nav-link" href="{{item.href}}">{{item.name}}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
+
         <div class='container'>
-            <div id='page' class='row'>
+            <div id='page'>
                 <div class='col'>
                     {{ content }}
                 </div>
