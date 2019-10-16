@@ -31,13 +31,13 @@
             </div>
         </nav>
         <div id='wrapper'>
-            <nav id='side-nav' class='d-none d-lg-block'>
-                <div id='side-nav-content' class='d-flex'>
+            <nav id='side-nav' class='d-none d-lg-block navbar-dark'>
+                <div id='side-nav-content'>
                     <a class="navbar-brand" href="/index.html">{{ site.title }}</a>
-                    <ul>
+                    <ul class='navbar-nav flex-fill'>
                         {% for item in site.navigation %}
-                            <li class='{% if page.url == item.href %}active{% endif %}'>
-                                <a href="{{item.href}}">{{item.name}}</a>
+                            <li class='nav-item {% if page.url == item.href %}active{% endif %}'>
+                                <a class='nav-link' href="{{item.href}}">{{item.name}}</a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -47,7 +47,7 @@
                 </div>
             </nav>
             <div class='container'>
-                <div id='page'>
+                <div id='page' class='my-lg-4'>
                     <div class='col'>
                         {{ content }}
                     </div>

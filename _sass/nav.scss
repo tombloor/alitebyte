@@ -18,16 +18,26 @@ $nav-color: white;
 }
 
 #side-nav {
+    min-height: 100vh;
     min-width: $sidebar-width;
     background-color: $nav-background;
     box-shadow: 2px 0 5px;
 }
 
+#side-nav .navbar-brand {
+    margin: 0;
+}
+
 #side-nav-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
     position: fixed;
     height: 100vh;
     width: $sidebar-width;
-    flex-direction: column;
+    padding: 1rem;
 }
 
 nav .social-link {
