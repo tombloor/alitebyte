@@ -6,7 +6,7 @@ categories: jekyll
 tags: 
     - blogging
     - web
-date: 2019-10-14 10:58:00 -0500
+date: 2019-10-15 22:16:00 -0500
 excerpt_separator: <!--more-->
 ---
 
