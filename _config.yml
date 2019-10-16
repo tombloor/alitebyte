@@ -26,6 +26,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://alitebyte.com" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: alitebyte
 github_username:  tombloor
+linkedin_username: tom-bloor
 
 # Build settings
 #theme: minima

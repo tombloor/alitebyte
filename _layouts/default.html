@@ -8,10 +8,11 @@
         <link rel='stylesheet' href='/assets/css/bootstrap.min.css'>
         <link rel='stylesheet' href='/assets/css/styles.css' />
         <link rel='stylesheet' href='/assets/css/syntax.css' />
+        <link rel='stylesheet' href='/assets/css/fa.all.min.css' />
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     </head>
     <body>
-        <nav id='top-nav' class='navbar navbar-expand-lg navbar-dark'>
+        <nav id='top-nav' class='d-flex d-lg-none navbar navbar-expand-lg navbar-dark'>
             <a class="navbar-brand" href="/index.html">{{ site.title }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#top-nav-content" aria-controls="top-nav-content" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -24,13 +25,32 @@
                         </li>
                     {% endfor %}
                 </ul>
+                <div class='d-flex justify-content-center social-links'>
+                    {% include social.html %}
+                </div>
             </div>
         </nav>
-
-        <div class='container'>
-            <div id='page'>
-                <div class='col'>
-                    {{ content }}
+        <div id='wrapper'>
+            <nav id='side-nav' class='d-none d-lg-block'>
+                <div id='side-nav-content' class='d-flex'>
+                    <a class="navbar-brand" href="/index.html">{{ site.title }}</a>
+                    <ul>
+                        {% for item in site.navigation %}
+                            <li class='{% if page.url == item.href %}active{% endif %}'>
+                                <a href="{{item.href}}">{{item.name}}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class='social-links'>
+                        {% include social.html %}
+                    </div>
+                </div>
+            </nav>
+            <div class='container'>
+                <div id='page'>
+                    <div class='col'>
+                        {{ content }}
+                    </div>
                 </div>
             </div>
         </div>

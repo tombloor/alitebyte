@@ -1,4 +1,6 @@
+$sidebar-width: 250px;
 $nav-background: rgb(102, 0, 153);
+$nav-color: white;
 
 #top-nav {
     background-color: $nav-background;
@@ -7,10 +9,29 @@ $nav-background: rgb(102, 0, 153);
 }
 
 #top-nav .navbar-toggler {
-    color: white;
-    border-color: rgba(255, 255, 255, .75);
+    color: $nav-color;
+    border-color: rgba($nav-color, .7);
 }
 
 #top-nav .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")
+}
+
+#side-nav {
+    min-width: $sidebar-width;
+    background-color: $nav-background;
+    box-shadow: 2px 0 5px;
+}
+
+#side-nav-content {
+    position: fixed;
+    height: 100vh;
+    width: $sidebar-width;
+    flex-direction: column;
+}
+
+nav .social-link {
+    font-size: 1.5em;
+    color: $nav-color;
+    margin: 0 .7rem;
 }
