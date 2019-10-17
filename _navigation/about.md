@@ -1,5 +1,5 @@
 ---
 name: 'About'
-href: '/about.html'
+href: '/about/'
 order: 10
 ---
