@@ -1,9 +1,14 @@
-@import "sidebar";
+@import "nav";
 @import "posts";
 
-$body-background: #ddd;
+$body-background: #fff;
 
 body {
     font-family: 'Source Sans Pro', sans-serif;
     background-color: $body-background;
+}
+
+#wrapper {
+    display: flex;
+    width: 100%;
 }
