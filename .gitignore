@@ -6,3 +6,4 @@ vendor
 assets/resized
 
 .vscode
+deploy.sh
