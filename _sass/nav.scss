@@ -37,7 +37,7 @@ nav .social-link:hover {
 
 #side-nav .logo {
     width: 5rem;
-    text-align: center;
+    margin: 0 auto;
 }
 #side-nav .logo img {
     width: 100%;
@@ -48,7 +48,8 @@ nav .social-link:hover {
 }
 
 #side-nav .navbar-brand {
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 1rem 0;
+    font-size: 2em;
 }
 
 #side-nav-content {
