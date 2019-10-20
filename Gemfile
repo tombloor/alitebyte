@@ -36,3 +36,5 @@ gem "jekyll-responsive-image", "~> 1.5"
 gem "rmagick", "= 2.16.0"
 
 gem "jekyll-sitemap", "~> 1.3"
+
+gem "jekyll-seo-tag", "~> 2.6"
