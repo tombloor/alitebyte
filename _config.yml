@@ -34,6 +34,7 @@ plugins:
   - jekyll-feed
   - jemoji
   - jekyll-responsive-image
+  - jekyll-sitemap
 
 permalink: /:categories/:year/:month/:day/:title/
 

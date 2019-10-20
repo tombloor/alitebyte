@@ -34,3 +34,5 @@ gem "jemoji", "~> 0.11.1"
 gem "jekyll-responsive-image", "~> 1.5"
 
 gem "rmagick", "= 2.16.0"
+
+gem "jekyll-sitemap", "~> 1.3"
