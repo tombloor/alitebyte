@@ -6,6 +6,7 @@ categories: jekyll
 tags: 
     - blogging
     - web
+date: 2019-10-21 19:59:00 -0500
 excerpt_separator: <!--more-->
 ---
 
@@ -17,7 +18,7 @@ In this part we will look at deploying our blog and setting up `Google Analytics
 
 Last time we finished a super simple layout for our blog and tested it locally. This time we're going to look at putting the blog out on the internet for others to see. I decided to go with [Digital Ocean](https://m.do.co/c/d5f8bcc763e9) for web hosting as they seem to be a pretty popular choice among developers and you can get a full VM to play with for just $5 a month, which is pretty nice. If you haven't yet decided on a hosting provider and want to give them a try you can get $50 of free credit for a month by using my [referral link](https://m.do.co/c/d5f8bcc763e9). (Plus you'll have my gratitude as I earn referral rewards for my account which will help keep this blog going :smile: )
 
-It's worth noting that setting up a webserver is outside the scope of this post, so if you do go with a blank slate VM like `Digital Ocean` I would highly recommend following one of their guides, they have one for all popular web servers (such as [NGINX](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04)) and seem very easy to follow.
+It's worth noting that setting up a webserver is outside the scope of this post, so if you do go with a blank slate VM like with `Digital Ocean` I would highly recommend following one of their guides. They have one for all popular web servers (such as [NGINX](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04)) and seem very easy to follow.
 
 ## Deploying 
 
@@ -35,9 +36,9 @@ This is probably the thing that I love most about `Jekyll` right now. There are 
 
 So now that we've got our blog sitting on the internet, let's set up some analytics so we can see what sort of traffic we're getting. I see no reason to go with anything other than the tried and tested [Google Analytics](https://analytics.google.com/analytics/web/). I've used it before at work and it's really easy to set up. Once you go through the registration process and setup your site in the dashboard you'll be given a snippet of `Javascript` to insert in any pages you want to collect data on.
 
-In our case, this means we'll want to include the tracking script in our `default.html` layout. That seems simple enough, but we also have to be careful. If we want to keep our data clean we'll probably won't want the tracking script to trigger while we're developing the site locally. There's a few of approaches you could take here, you could add an if statement to the `Javascript` to check if the page url started with `http://localhost`. You could just leave it alone and filter out localhost traffic from within your `Google Analytics` dashboard. Or you could have `Jekyll` omit the script until you were ready to deploy.
+In our case, this means we'll want to include the tracking script in our `default.html` layout. That seems simple enough, but we also have to be careful. If we want to keep our data clean we'll probably not want the tracking script to trigger while we're developing the site locally. There's a few of approaches you could take here, you could add an if statement to the `Javascript` to check if the page url started with `http://localhost`. You could just leave it alone and filter out localhost traffic from within your `Google Analytics` dashboard. Or you could have `Jekyll` omit the script until you were ready to deploy.
 
-I personally feel like omitting the script until we actually want it to run is the cleanest solution, and with `Jekyll Environments` it's very easy to achieve. When we build/serve our site without specifying which environment we're targeting, `Jekyll` will default to `development`. When we're building for a deployment we can specify which environment to use like so:
+I personally feel like omitting the script until we actually want it to run is the cleanest solution, and with `Jekyll Environments` it's very easy to achieve. When we build/serve our site without specifying which environment we're targeting, `Jekyll` will default to `development`. When we're building for a production we can specify which environment to use like so:
 
 {% highlight shell %}
 $ JEKYLL_ENV=production bundle exec jekyll build
