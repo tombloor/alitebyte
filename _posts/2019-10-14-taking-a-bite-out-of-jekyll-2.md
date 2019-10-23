@@ -2,10 +2,10 @@
 title: "Taking a bite out of Jekyll - Part 2"
 slug: "taking-a-bite-jekyll-2"
 layout: post
-categories: jekyll
+categories: web-dev
 tags: 
     - blogging
-    - web
+    - jekyll
 date: 2019-10-15 22:16:00 -0500
 excerpt_separator: <!--more-->
 ---
