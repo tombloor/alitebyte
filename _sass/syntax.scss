@@ -1,5 +1,7 @@
 .highlight {
+    position: relative;
     background-color: #cdcdcd;
+    border-radius: 10px;
 }
 .highlight .gutter pre {
     color: #777;
@@ -9,6 +11,35 @@
 }
 .highlight > pre {
     padding: 5px;
+}
+
+.highlight-file {
+    margin-bottom: 0;
+    padding: 4px 10px;
+    background-color: #cdcdcd;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #aaa;
+    font-style: italic;
+    font-size: 0.8em;
+}
+.highlight-file + .highlight {
+    border-radius: 0 0 10px 10px;
+}
+.highlight-file + .highlight > pre {
+    margin-top: 0;
+}
+
+figure.highlight > pre > code::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    padding: .3em .5em;
+    color: white;
+    background-color: $nav-background;
+    border-radius: 10px;
+    font-size: 0.8em;
+    font-weight: bold;
 }
 
 .highlight .hll { background-color: #ffffcc }

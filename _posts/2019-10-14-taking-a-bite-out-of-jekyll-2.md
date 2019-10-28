@@ -46,6 +46,7 @@ Now that's done, it's time to start writing some `html`.
 
 Let's create our default layout file `_layouts/default.html` and add some boilerplate html to check it is working:
 
+{% include highlight-file.html name='/_layouts/default.html' %}
 {% highlight html linenos %}
 <!doctype html>
 <html>
