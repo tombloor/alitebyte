@@ -24,9 +24,9 @@ It's worth noting that setting up a webserver is outside the scope of this post,
 
 So now that you've got your webserver set up and ready to go, we can start the incredibly simple process of publishing the `Jekyll` blog. The way `Jekyll` works is that when you build/serve your site locally, `Jekyll` processes all of your content into static `HTML` files and puts them in a folder named `_site`. The command to build the site without serving it locally is as follows.
 
-{% highlight shell %}
+```shell
 $ bundle exec jekyll build
-{% endhighlight %}
+```
 
 Once that finishes, all you need to do to deploy your blog is to copy the `_site` folder into the webroot of your chosen webserver. There's no database to mess around with, no setup scripts, just copy the files up and you're done.
 
@@ -40,19 +40,19 @@ In our case, this means we'll want to include the tracking script in our `defaul
 
 I personally feel like omitting the script until we actually want it to run is the cleanest solution, and with `Jekyll Environments` it's very easy to achieve. When we build/serve our site without specifying which environment we're targeting, `Jekyll` will default to `development`. When we're building for a production we can specify which environment to use like so:
 
-{% highlight shell %}
+```shell
 $ JEKYLL_ENV=production bundle exec jekyll build
-{% endhighlight %}
+```
 
 Now as things stand, this will build our site in exactly the same was as if we built it without specifying the environment. However, we can tell `Jekyll` to only render certain parts of our markup when we're in a particular environment. For example, to only render our tracking script when in production mode, we could write.
 
-{% highlight html linenos %}
+{% highlight jinja linenos %}
 {% raw %}
 {% if jekyll.environment == 'production' %}
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-X"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
         gtag('config', 'UA-XXXXXXXXX-X');
