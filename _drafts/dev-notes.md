@@ -4,7 +4,6 @@ layout: post
 
 ### Site Improvements
 - Restyle codeblocks
-- About me page
 - Categories page
 - Post pagination
 - Tags page
@@ -14,3 +13,4 @@ layout: post
 - [CI Pipeline](https://jenkins.io/)
 - Site Search
 - Push to ping lists after deploy
+- [Email subscriptions](https://feedburner.google.com/fb/a/emailsyndicationSubmit)
