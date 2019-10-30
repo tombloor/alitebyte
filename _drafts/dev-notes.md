@@ -3,6 +3,7 @@ layout: post
 ---
 
 ### Site Improvements
+- Fix breakpoints (use source of bootstrap so we can edit the sass variables)
 - Restyle codeblocks
 - About me page
 - Categories page
