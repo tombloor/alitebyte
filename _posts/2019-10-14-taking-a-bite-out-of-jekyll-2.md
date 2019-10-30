@@ -210,7 +210,7 @@ layout: default
 <a href='/index.html'>&lt; Back to posts</a>
 <h2 class='post-heading'>
     {% raw %}{{ page.title }}<br/>{% endraw %}
-    <small class='text-muted'>{% raw %}{{ page.date | date_to_string }}{% endraw %}</small>
+    <small class='text-muted'>{% raw %}{{ page.date|date_to_string }}{% endraw %}</small>
 </h2>
 <div>
     {% raw %}{{ content }}{% endraw %}
@@ -242,7 +242,7 @@ Now if we change the `index.html` page, this will render the first two blocks of
 {% raw %}
 <h2 class='post-heading'>
     {{ include.title }}<br/>
-    <small class='text-muted'>{{ include.date | date_to_string }}</small>
+    <small class='text-muted'>{{ include.date|date_to_string }}</small>
 </h2>
 {% endraw %}
 {% endhighlight %}
