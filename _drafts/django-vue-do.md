@@ -61,10 +61,37 @@ Now we should be able to test if everything is working so far.
 (env) $ python3 manage.py runserver
 ```
 
-The output should include a web address (http://127.0.0.1:8000 by default), navigate to it and you should see `Django`.
+The output should include a web address (http://127.0.0.1:8000 by default), navigate to it and you should see a message from `Django`.
 
 <div class='row'>
     <div class='col-8 mx-auto'>
         {% responsive_image path: assets/img/django-new-landing-page.png class: 'img-fluid img-thumbnail' alt: 'Hello, Django!' %}
     </div>
 </div>
+
+## Django Rest Framework
+
+Now we're onto installing the `Django Rest Framework` to help us implement an easy to use `REST` web api. 
+
+```sh
+(env) $ pip install djangorestframework
+```
+
+Once we've installed the package, we need to tell `Django` we want to use it in our application. We do this by adding it into the installed apps section of the `settings.py` file. While you're doing this you should also add our `api` app which we created with the `django-admin startapp` command, as we'll need this later.
+
+{% include posts/highlight-file.html name='/django_vue_doo/django_vue_doo/settings.py' %}
+{% highlight python linenos %}
+...
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    'rest_framework',
+    'api'
+]
+...
+{% endhighlight %}

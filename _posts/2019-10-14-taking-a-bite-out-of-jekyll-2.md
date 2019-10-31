@@ -46,7 +46,7 @@ Now that's done, it's time to start writing some `html`.
 
 Let's create our default layout file `_layouts/default.html` and add some boilerplate html to check it is working:
 
-{% include highlight-file.html name='/_layouts/default.html' %}
+{% include posts/highlight-file.html name='/_layouts/default.html' %}
 {% highlight html linenos %}
 <!doctype html>
 <html>
@@ -61,7 +61,7 @@ Let's create our default layout file `_layouts/default.html` and add some boiler
 
 We also need a `index.html` file in the root of our site. `Jekyll` automatically creates `index.markdown` for you, but for our test we'll delete it and do things our way. The file should be empty for now, except for a single line of front matter.
 
-{% include highlight-file.html name='/index.html' %}
+{% include posts/highlight-file.html name='/index.html' %}
 {% highlight html linenos %}
 ---
 layout: default
@@ -91,7 +91,7 @@ root
 
 Lets go ahead and add the `bootstrap` css and js files to our project. Download the latest versions from the [Bootstrap website](https://getbootstrap.com/), making sure you get any listed dependencies (such as `Popper.js` and `jQuery`). Lets add them into the relevant folders, then reference them in our `default.html` layout file.
 
-{% include highlight-file.html name='/_layouts/default.html' %}
+{% include posts/highlight-file.html name='/_layouts/default.html' %}
 {% highlight html linenos %}
 <!doctype html>
 <html>
@@ -116,7 +116,7 @@ Notice that we also included a couple of meta tags, these are important when vie
 
 So right now we have a layout which just displays a fixed message. Let's introduce some `liquid` tags to pull some information from our site configuration, and render the content of the page we've requested. We'll also start to add in the classes used by `bootstrap` to structure our content in a mobile friendly grid.
 
-{% include highlight-file.html name='/_layouts/default.html' %}
+{% include posts/highlight-file.html name='/_layouts/default.html' %}
 {% highlight Jinja linenos %}
 {% raw %}
 <!doctype html>
@@ -149,7 +149,7 @@ So right now we have a layout which just displays a fixed message. Let's introdu
 
 So now we've got a basic default layout, lets move onto some content. A pretty essential component of any blog is a list of posts, so let's start with that. Our post list should be the first page people see when they navigate to our blog, so lets open up `index.html`, remove whatever `jekyll` put in there for us and replace it with a simple loop.
 
-{% include highlight-file.html name='/index.html' %}
+{% include posts/highlight-file.html name='/index.html' %}
 {% highlight jinja linenos %}
 ---
 layout: default
@@ -173,7 +173,7 @@ title: Home
 
 It's probably not going to look very impressive if we don't have any posts, so lets add some dummy ones. Create a new folder called `_drafts` in the root of your site, then make a file called `test-post.md` with the following contents.
 
-{% include highlight-file.html name='/_drafts/test-post.md' %}
+{% include posts/highlight-file.html name='/_drafts/test-post.md' %}
 {% highlight markdown linenos %}
 ---
 title: 'Test Post 1'
@@ -201,7 +201,7 @@ Depending on how minimalist you want to be you could stop right there and just s
 
 First of all we need a new layout for the post page. This layout will inherit from the `default` but will let us add some extra bits, such as a link back to the main posts list. Let's call this layout `post.html`.
 
-{% include highlight-file.html name='/_layouts/post.html' %}
+{% include posts/highlight-file.html name='/_layouts/post.html' %}
 {% highlight jinja linenos %}
 ---
 layout: default
@@ -220,7 +220,7 @@ layout: default
 
 Now that we've got a dedicated post page to show the content, we don't need to show it all in the posts list. By default there is the option to just render the first block of text in a post by using `{post.excerpt}` instead of `{post.content}`. You can also specify an excerpt property in the front matter of your post, or you can place a marker where you want the excerpt to stop, like so.
 
-{% include highlight-file.html name='/_drafts/test-post.html' %}
+{% include posts/highlight-file.html name='/_drafts/test-post.html' %}
 {% highlight markdown linenos %}
 ---
 title: 'Test Post 1'
@@ -237,7 +237,7 @@ Bye bye.
 
 Now if we change the `index.html` page, this will render the first two blocks of text as our excerpt and we can add a link to view the full post. While we're making this change you've already probably noticed that we're repeating ourselves when we're rendering the post header. We use exactly the same code on the post page as the posts list. Let's take that code out into an includes so we can reuse it. Create folder called `_includes` and add a `heading.html` file.
 
-{% include highlight-file.html name='/_includes/heading.html' %}
+{% include posts/highlight-file.html name='/_includes/heading.html' %}
 {% highlight jinja linenos %}
 {% raw %}
 <h2 class='post-heading'>
@@ -251,7 +251,7 @@ The `include.` object gives us access to the data of the post or page that is cu
 
 Now let's add this to our `index.html` page, and also make the change to show post excerpts rather than content.
 
-{% include highlight-file.html name='/index.html' %}
+{% include posts/highlight-file.html name='/index.html' %}
 {% highlight jinja linenos %}
 ---
 layout: default
@@ -275,7 +275,7 @@ title: Home
 
 And don't forget to change the `post.html` layout file to use our new heading.
 
-{% include highlight-file.html name='/_layouts/post.html' %}
+{% include posts/highlight-file.html name='/_layouts/post.html' %}
 {% highlight jinja linenos %}
 ---
 layout: default
@@ -298,7 +298,7 @@ So now we've got our site structure complete, let's add some basic styles to mak
 
 I'm not doing anything fancy with my styles yet, just changing the body background, using a different font and playing with some of the spacing. I'll be adding a lot more to this as I add features to the site.
 
-{% include highlight-file.html name='/_sass/main.scss' %}
+{% include posts/highlight-file.html name='/_sass/main.scss' %}
 {% highlight scss linenos %}
 $body-background: #ddd;
 
@@ -328,7 +328,7 @@ h2.post-heading {
 
 Now let's add another file to import these styles into `assets/css`. I've called mine `styles.scss`.
 
-{% include highlight-file.html name='/assets/css/styles.scss' %}
+{% include posts/highlight-file.html name='/assets/css/styles.scss' %}
 {% highlight scss linenos %}
 ---
 ---
@@ -340,7 +340,7 @@ Note the empty front matter at the start of the file, this is essential as it te
 
 Finally let's reference this file in the head of our `default.html` layout.
 
-{% include highlight-file.html name='/_layouts/default.html' %}
+{% include posts/highlight-file.html name='/_layouts/default.html' %}
 {% highlight jinja linenos %}
 {% raw %}
 ...
