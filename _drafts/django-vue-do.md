@@ -1,5 +1,5 @@
 ---
-title: "Django Vue-doo"
+title: "Django Vue-Doo Part 1"
 slug: "django-vue-doo-1"
 layout: post
 categories: web-dev
@@ -95,3 +95,162 @@ INSTALLED_APPS = [
 ]
 ...
 {% endhighlight %}
+
+At this point you could also configure your database connection. By default, `Django` will create a `sqlite` database for you when you run your first migration. If you want to configure a different database, you can refer to the [official documentation](https://docs.djangoproject.com/en/2.2/ref/settings/#databases). Once your database connection is configured you can continue to follow along and everything will be the same. For now, I'm just going to stick with the default.
+
+```sh
+(env) $ python3 manage.py migrate
+```
+
+This command will run all of the migrations that have yet to be applied to your database. In our case, it is currently just applying all the default migrations which come with `Django` and the `Rest Framework`.
+
+Once we've run our first migration it's a good idea to create a superuser account so that we can log into the admin site when needed. You will also be prompted to set a password for the account.
+
+```sh
+(env) $ python3 manage.py createsuperuser \
+            --email test@alitebyte.com \
+            --username admin
+```
+
+## Setting up the API
+
+We now have a blank `Django` site with `Django Rest Framework` installed and connected to a fresh database with all the required built in tables. Our next step is to define our data models and set up the `API` to allow us to perform basic `CRUD` operations on them.
+
+We're not going to need anything too complicated here. Our main two models will be a `ToDoList` which will be associated with a user account, and a `ToDoItem` which will be associated with a `ToDoList`. Add a class definition for each of these models in `api/models.py`.
+
+{% include posts/highlight-file.html name='/django_vue_doo/api/models.py' %}
+{% highlight python linenos %}
+from django.db import models
+from django.contrib.auth.models import User
+
+class ToDoList(models.Model):
+    name = models.CharField(max_length=50)
+    user = models.ForeignKey(User, 
+        on_delete=models.CASCADE, 
+        related_name='lists'
+    )
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return f'{self.pk} - {self.name}'
+    
+
+class ToDoItem(models.Model):
+    text = models.CharField(max_length=80)
+    todo_list = models.ForeignKey(ToDoList, 
+        on_delete=models.CASCADE,
+        related_name='items'
+    )
+    completed = models.BooleanField(default=False)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return f'{self.pk} - {self.text}'
+{% endhighlight %}
+
+Once we've defined our models we can have `Django` create a migration script for the changes, and then apply them automatically to our database.
+
+```sh
+(env) $ python3 manage.py makemigrations --name todo_list_and_items
+(env) $ python3 manage.py migrate
+```
+
+Now because we're creating a `REST` api which will be accessed over the web, we need to implement a way of representing our data objects in a textual format, such as `JSON`, that we can then consume in the client side part of our application. For that we can use the serializers built into the `rest framework`. Create a new file in the `api` folder called `serializers.py`
+
+{% include posts/highlight-file.html name='/django_vue_doo/api/serializers.py' %}
+{% highlight python linenos %}
+from django.contrib.auth.models import User
+from rest_framework import serializers
+
+from api.models import ToDoList, ToDoItem
+
+class ToDoItemSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ToDoItem
+        fields = '__all__'
+
+class ToDoListSerializer(serializers.HyperlinkedModelSerializer):
+    items = ToDoItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ToDoList
+        fields = '__all__'
+
+class ToDoListSummarySerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = ToDoList
+        fields = ['url', 'name']
+
+class UserSerializer(serializers.ModelSerializer):
+    lists = ToDoListSummarySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'lists']
+{% endhighlight %}
+
+Take a look at the [documentation](https://www.django-rest-framework.org/api-guide/serializers/) for more detail on how these serializers work, but broadly speaking our serializers are as follows:
+
+- `ToDoItemSerializer` - returns a full representation of a single item.
+- `ToDoListSerializer` - returns a full representation of a list, including all it's items.
+- `ToDoListSummarySerializer` - returns a slim representation of a list without any information about the items within (we'll need this when we introduce a simple permissions system)
+- `UserSerializer` - returns relevant fields from the built in `Django` user object.
+
+I'm using `HyperlinkedModelSerializers` because rather than returning an id to reference each object, they return a url. This means that we don't have to worry about reconstructing the url in out client-side code every time we want to query our api.
+
+Now having all these models and serializers is great, but we can't actually do anything with our api yet. For that we need to define some views referencing our serializers, which will can then map to urls. We're going to use another shortcutty part of the `rest framework` called [viewsets](https://www.django-rest-framework.org/api-guide/viewsets/). These are essentially a collection of views bundled up together, and implements common `CRUD` functionality to save us having to write them all out manually.
+
+{% include posts/highlight-file.html name='/django_vue_doo/api/views.py' %}
+{% highlight python linenos %}
+from django.contrib.auth.models import User
+
+from rest_framework import viewsets
+
+from api.models import ToDoList, ToDoItem
+from api.serializers import ToDoItemSerializer, ToDoListSerializer, UserSerializer
+
+class ToDoListViewset(viewsets.ModelViewSet):
+    queryset = ToDoList.objects.all()
+    serializer_class = ToDoListSerializer
+
+class ToDoItemViewset(viewsets.ModelViewSet):
+    queryset = ToDoItem.objects.all()
+    serializer_class = ToDoItemSerializer
+
+class UserViewset(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+{% endhighlight %}
+
+Next we need to map these `viewsets` to urls so that we can access them over the web. Again the `rest framework` has a helper for this called a router which defines all the urls our viewsets will need. Usually I would say it's best to define a seperate `urls.py` file for each app in your project, then just include them in your project `urls.py` file. But because we're only creating a simple example, we'll just work directly in our project urls file.
+
+{% include posts/highlight-file.html name='/django_vue_doo/django_vue_doo/urls.py' %}
+{% highlight python linenos %}
+from django.contrib import admin
+from django.urls import path, include
+
+from api import views as api_views
+
+router = routers.DefaultRouter()
+router.register('todo-lists', api_views.ToDoListViewset)
+router.register('todo-items', api_views.ToDoItemViewset)
+router.register('users', api_views.UserViewset)
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include(router.urls)),
+]
+{% endhighlight %}
+
+Now lets run the development server again and check it out.
+
+```sh
+(env) $ python3 manage.py runserver
+```
+
+If you navigate to the root of your site, you should see the `rest framework` web interface, which is a nice way to check everything is working as expected. If you go to `/admin` you can still access the default `Django` admin pages. Try using the controls to send some posts and gets to see how data is saved/retrieved.
+
+In the next post we'll finish up our API by adding authentication and a very basic permissions system. Then after that we can start on the user interface.
