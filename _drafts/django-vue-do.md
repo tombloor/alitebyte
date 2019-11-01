@@ -21,13 +21,13 @@ In the first part of this series we will be setting up our `Django` project and 
 
 I like experimenting with different libraries and frameworks, I think it's important to keep a broad view of what is out there when it comes to programming. The more frameworks, languages, etc, you have an understanding of the more options you have in your toolbox, and different tools are more suited for different tasks. Plus it's cool playing with new stuff.
 
-So one day I became aware of a front end framework called [Vue.js](https://vuejs.org/). It was open source, had decent documentation and looked like it could do some pretty cool stuff so I decided to try it out. I find the best way to fully try something like this out is to just dive in and use it, so that's what I'm going to do here. My intention is to create a standard ToDo List application while I figure out how it works, then apply it to one of the projects in my ever growing list of stuff I want to make but haven't got around to yet (don't judge, you know you have that list).
+So one day I became aware of a front end framework called [Vue.js](https://vuejs.org/){:target="_blank"}. It was open source, had decent documentation and looked like it could do some pretty cool stuff so I decided to try it out. I find the best way to fully try something like this out is to just dive in and use it, so that's what I'm going to do here. My intention is to create a standard ToDo List application while I figure out how it works, then apply it to one of the projects in my ever growing list of stuff I want to make but haven't got around to yet (don't judge, you know you have that list too).
 
-Now `Vue` is a front end framework, so it's completely focused on creating the user interface. This means that it is ideally paired with a backend service to take care of things like data management and user authentication. So because I see an opportunity to make this even more of a learning experience, I've decided to try out another framework which I've never used called [Django Rest Framework](https://www.django-rest-framework.org/). I have a bit more of a head start with this one as I am already very familiar with [Django](https://www.djangoproject.com/). This framework makes it easier to build a full `REST` api while keeping all the cool admin functionality that comes bundled with `Django`.
+Now `Vue` is a front end framework, so it's completely focused on creating the user interface. This means that it is ideally paired with a backend service to take care of things like data management and user authentication. So because I see an opportunity to make this even more of a learning experience, I've decided to try out another framework which I've never used called [Django Rest Framework](https://www.django-rest-framework.org/){:target="_blank"}. I have a bit more of a head start with this one as I am already very familiar with [Django](https://www.djangoproject.com/){:target="_blank"}. This framework makes it easier to build a full `REST` api while keeping all the cool admin functionality that comes bundled with `Django`.
 
 ## Django Setup
 
-First things first, let's set up the web api which will be responsible for all our data related stuff. To do that we need to begin by installing `Django`. Start by creating 2 folders `backend` and `frontend`. These folders will hold our web api and vue interface respectively. Navigate into the `backend`, install `python 3` (if you haven't already) and create a new virtual environment called `env` to work in.
+First things first, let's set up the web api which will be responsible for all our data related stuff. To do that we need to begin by installing `Django`. Start by creating 2 folders `backend` and `frontend`. These folders will hold our web api and vue interface respectively. Navigate into the `backend` folder, install `python 3` (if you haven't already) and create a new virtual environment called `env` to work in.
 
 ```sh
 $ sudo apt install python3
@@ -35,7 +35,7 @@ $ sudo apt install python3-venv
 $ python3 -m venv env
 ```
 
-Virtual environments are essential for keeping yourself out of dependency hell, if you don't use them, you really should [(Y tho?)[(https://realpython.com/python-virtual-environments-a-primer/). Next we have to activate our virtual environment. Make sure you do this every time you're working on your project, if you don't you'll get all sorts of errors from missing packages.
+Virtual environments are essential for keeping yourself out of dependency hell, if you don't use them, you really should [(Y tho?)](https://realpython.com/python-virtual-environments-a-primer/){:target="_blank"}. Next we have to activate our virtual environment. Make sure you do this every time you're working on your project, if you don't you'll get all sorts of errors from missing packages.
 
 ```sh
 $ source env/bin/activate
@@ -96,7 +96,7 @@ INSTALLED_APPS = [
 ...
 {% endhighlight %}
 
-At this point you could also configure your database connection. By default, `Django` will create a `sqlite` database for you when you run your first migration. If you want to configure a different database, you can refer to the [official documentation](https://docs.djangoproject.com/en/2.2/ref/settings/#databases). Once your database connection is configured you can continue to follow along and everything will be the same. For now, I'm just going to stick with the default.
+At this point you could also configure your database connection. By default, `Django` will create a `sqlite` database for you when you run your first migration. If you want to configure a different database, you can refer to the [official documentation](https://docs.djangoproject.com/en/2.2/ref/settings/#databases){:target="_blank"}. Once your database connection is configured you can continue to follow along and everything will be the same. For now, I'm just going to stick with the default.
 
 ```sh
 (env) $ python3 manage.py migrate
@@ -192,16 +192,16 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'lists']
 {% endhighlight %}
 
-Take a look at the [documentation](https://www.django-rest-framework.org/api-guide/serializers/) for more detail on how these serializers work, but broadly speaking our serializers are as follows:
+Take a look at the [documentation](https://www.django-rest-framework.org/api-guide/serializers/){:target="_blank"} for more detail on how these serializers work, but broadly speaking our serializers are as follows:
 
 - `ToDoItemSerializer` - returns a full representation of a single item.
 - `ToDoListSerializer` - returns a full representation of a list, including all it's items.
 - `ToDoListSummarySerializer` - returns a slim representation of a list without any information about the items within (we'll need this when we introduce a simple permissions system)
-- `UserSerializer` - returns relevant fields from the built in `Django` user object.
+- `UserSerializer` - returns relevant fields from the built in `Django` user object, along with the summary of all their lists.
 
 I'm using `HyperlinkedModelSerializers` because rather than returning an id to reference each object, they return a url. This means that we don't have to worry about reconstructing the url in out client-side code every time we want to query our api.
 
-Now having all these models and serializers is great, but we can't actually do anything with our api yet. For that we need to define some views referencing our serializers, which will can then map to urls. We're going to use another shortcutty part of the `rest framework` called [viewsets](https://www.django-rest-framework.org/api-guide/viewsets/). These are essentially a collection of views bundled up together, and implements common `CRUD` functionality to save us having to write them all out manually.
+Now having all these models and serializers is great, but we can't actually do anything with our api yet. For that we need to define some views to use them, which we can then map to urls. We're going to use another shortcutty part of the `rest framework` called [viewsets](https://www.django-rest-framework.org/api-guide/viewsets/){:target="_blank"}. These are essentially a collection of views bundled up together, and will implement common `CRUD` functionality to save us having to write them all out manually.
 
 {% include posts/highlight-file.html name='/django_vue_doo/api/views.py' %}
 {% highlight python linenos %}
@@ -231,6 +231,8 @@ Next we need to map these `viewsets` to urls so that we can access them over the
 {% highlight python linenos %}
 from django.contrib import admin
 from django.urls import path, include
+
+from rest_framework import routers
 
 from api import views as api_views
 
