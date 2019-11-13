@@ -8,7 +8,7 @@ tags:
     - vue
     - REST
     - JWT
-date: 2019-11-05 20:00:00 -0500
+date: 2019-11-12 20:00:00 -0600
 excerpt_separator: <!--more-->
 ---
 
