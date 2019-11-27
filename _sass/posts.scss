@@ -15,3 +15,14 @@ h2.post-heading {
     border-bottom: 2px solid #ccc;
     padding-bottom: 2px;
 }
+
+blockquote {
+    background-color: #efefef;
+    color: #3e3e3e;
+    margin: 10px 0;
+    border-left: 4px solid #ccc;
+    border-radius: 0 10px 10px 0;
+}
+blockquote p {
+    padding: 10px;
+}

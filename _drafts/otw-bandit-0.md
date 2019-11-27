@@ -6,52 +6,109 @@ categories: ctf
 tags: 
     - over-the-wire
     - bandit
-date: 2019-10-08 20:47:00 -0500
+    - linux
+date: 2019-11-26 20:47:00 -0500
 excerpt_separator: <!--more-->
 ---
 
-Series for over the wire bandit
+In this series I will be working through the `bandit` challenges on [overthewire.org](https://overthewire.org/){:target="_blank"} - A site offering `CTF` style wargames.
 
-0 - 3
+This post will contain walkthroughs for the first 4 challenges together, as they are pretty simple. 
 
-<!--more--->
+<!--more-->
 
-because they're so short, I'm bundle the first 4 challenges together. as they get more complex there will be less challenges per post.
+## Overthewire
+
+[Overthewire.org](https://overthewire.org/){:target="_blank"} offers a collection of fun `CTF` style challenges which are great for learning and practising security concepts. They suggest an order to play though the challenges which starts of very easy and gradually ramps up the difficulty. I'm going to be following through this order for the most part, as although I've done a few of the `Bandit` challenges before I will be going into these mostly blind.
+
+To play the challenges you have to connect via `SSH`. To access each level of the challenge you need a password, which is discovered by completing the prior level. If you want to follow along with these walkthroughs, make sure you save the passwords at the end of each level as I will not be showing them in my solutions. 
+
+Although cyber security is an interest of mine, I am very much still a beginner. I like to explore the field at a hobby level, but most of my professional expertise is related to software development. Once I eventually get around to adding a comments system to this site you can let me know how hideously suboptimal my solutions are :sweat_smile:.
 
 ## Bandit 0
 
-super easy, first level is just to connect to the game
+The `Bandit` challenges are mostly focused on teaching you the basics, and so the first level simply requires you to `ssh` into the game and read a file in the `home` directory called `readme`. They provide the address, port, username and password on the webpage for you. Between that and the `man` page for `ssh` it should be pretty easy to work out.
 
-root@alitebyte:~# shh bandit0@bandit.labs.overthewire.org -p 2220
+```sh
+tom@alitebyte:~# ssh bandit0@bandit.labs.overthewire.org -p 2220
+```
 
-enter the password when prompted (it's on the webpage)
+> *If you're using windows, you can use [PuTTY](https://www.putty.org/){:target="_blank"} to start an `ssh` session*
 
+That should drop you into a shell on the `bandit` box as the user `bandit0`. Now we can read the file.
+
+```sh
 bandit0@bandit:~$ cat readme
+```
+
+And that horrible long string you see is the password. Save it somewhere, you'll need to copy and paste it into the terminal when connecting to the next level.
 
 ## Bandit 1
 
-connect
+For this level the instructions say that the password will be in a file called `-` in the `home` directory. This sounds a lot like the last level.
 
-ls -la
+`ssh` into the next level by using the `bandit1` user and the password from the previous level.
 
-file is called "-" which messes up cat as it thinks we mean stdin
+```sh
+tom@alitebyte:~# ssh bandit1@bandit.labs.overthewire.org -p 2220
+```
 
-cat ./-
+Now if you try to read the file you'll see the problem we have to solve.
+
+```sh
+bandit1@bandit:~$ cat -
+
+bandit1@bandit:~$
+```
+
+The output is empty. If you use the `ls -l` command to list the contents of the current directory, you will see that the file exists and it's size is not 0, so we would presume there would be some output.
+
+The reason we're seeing no output is that we're not actually reading the file at all. By convention, a lot of programs will interpret the file `-` as either `STDIN` or `STOUT`. In the case of `cat` it is trying to read `STDIN` which is empty. To get `cat` to read the file instead we have to be a bit more specific.
+
+```sh
+bandit1@bandit:~$ cat ./-
+```
+
+And then we are given the password. We could also do `~/-` as we know the file is in our `home` directory. To learn more about this I would suggest reading through the links on the web page for this level.
 
 ## Bandit 2
 
-ls 
+Once again, in this level we have to read the password from a file in our home directory. This time the file has spaces in it's name. The incorrect way to try and read this file would be:
 
-file has spaces
+```sh
+bandit2@bandit:~$ cat spaces in this filename
+```
 
-cat "spaces in this filename"
+What this would actually do is try to read and combine the contents of four separate files `spaces`, `in`, `this` and `filename`. To fix this we have to wrap the filename in double quotes so that `cat` knows this is one continuous string and not four separate arguments.
+
+```sh
+bandit2@bandit:~$ cat "spaces in this filename"
+```
+
+You could also get around this by escaping each of the spaces with a `\` like this:
+
+```sh
+bandit2@bandit:~$ cat spaces\ in\ this\ filename
+```
+
+But ew. Double quotes are much easier to read.
 
 ## Bandit 3
 
-ls 
+In this level the instructions state that there is a directory in `home` called `inhere`. The password is in a hidden file in the `inhere` directory. To find out the name of the file you would need to list the contents of `inhere`.
 
-see folder called inhere but it looks empty because the file is hidden
+```sh
+bandit3@bandit:~$ ls inhere
+```
 
-ls -a inhere
+However it seems there is no file in there. This is because by default `ls` won't include hidden files. We can tell it to show hidden files by adding the `-a` switch, and once we know the filename we can just `cat` it for the password.
 
-cat inhere/.hidden
+```sh
+bandit3@bandit:~$ ls -a inhere
+.   ..  .hidden
+bandit3@bandit:~$ cat inhere/.hidden
+```
+
+And that's as far as I'm going to go in this post. I like these kinds of challenges, they're fun and satisfying to work through, especially when they start to get more complex. I'm intend to try and work my way through all of the content on `overthewire` (and some other similar sites) at some point, so you can expect to see more of this alongside my programming posts.
+
+On my todo list for this blog (which you can see [here](https://github.com/tombloor/alitebyte/issues){:target="_blank"}) are a categories page and site search, which will hopefully make it easier to find what you're interested in without having to scroll through all the other posts.
