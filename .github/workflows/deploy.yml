@@ -13,4 +13,4 @@ jobs:
       env: 
         DEPLOY_KEY: ${{secrets.DEPLOY_KEY}} 
       with: 
-        args: "-avz _site/ github@alitebyte.com:/var/www/alitebyte.com/html/"
+        args: "-avz /_site/ github@alitebyte.com:/var/www/alitebyte.com/html/"
