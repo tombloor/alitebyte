@@ -7,3 +7,8 @@ layout: default
     {{ content }}
 </div>
 <a href='/index.html'>&lt; Back to posts</a>
+
+<hr />
+
+{% include posts/new-comment.html post=page %}
+{% include posts/comments-list.html post=page %}
