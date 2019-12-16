@@ -66,11 +66,11 @@ function setup_snow_switch(hide_snow) {
     $('.hide_snow_form input').on('click', function(){
         let on = $(this).prop('checked');
         //Sync other switch
-        $('.hide_snow_form input').attr('checked', on);
-
         if (on) {
+            $('.hide_snow_form input').prop('checked', true);
             let_it_snow();
         } else {
+            $('.hide_snow_form input').prop('checked', false);
             snow_plough();
         }
     });

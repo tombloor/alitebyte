@@ -25,13 +25,13 @@ $s1_m:"";
 $s2_m:"";
 $s3_m:"";
 @for $i from 1 through 40 {
-    $s1_m: $s1_m + random(1000)*0.01vw + " " + random(1000)*0.1vh + " ";
+    $s1_m: $s1_m + random(1000)*0.1vw + " " + random(1000)*0.1vh + " ";
     $s1_m: $s1_m + 0 + " " + random(50)*-0.01rem + " " + #fff;
 
-    $s2_m: $s2_m + random(1000)*0.01vw + " " + random(1000)*0.1vh + " ";
+    $s2_m: $s2_m + random(1000)*0.1vw + " " + random(1000)*0.1vh + " ";
     $s2_m: $s2_m + 0 + " " + random(50)*-0.01rem + " " + #fff;
 
-    $s3_m: $s3_m + random(1000)*0.01vw + " " + random(1000)*0.1vh + " ";
+    $s3_m: $s3_m + random(1000)*0.1vw + " " + random(1000)*0.1vh + " ";
     $s3_m: $s3_m + 0 + " " + random(50)*-0.01rem + " " + #fff;
 
     @if $i < 40 {
