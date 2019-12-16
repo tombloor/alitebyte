@@ -121,3 +121,18 @@ $s3_m:"";
 .snow-3.alt.snow-lite {
     animation-delay: 4s;
 }
+
+.hide_snow_form {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.hide_snow_form label {
+    color: white;
+}
+
+.hide_snow_form .custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    border-color: #28a745;
+    background-color: #28a745;
+}
