@@ -1,4 +1,6 @@
 $(function(){
+    $('.logo img').attr('src', '/assets/img/site/christmasbulb.svg');
+
     let hide_snow = localStorage.getItem('hide_snow') == 'true';
 
     if (!hide_snow) {

@@ -85,41 +85,21 @@ $s3_m:"";
     animation-delay: 7s;
 }
 
-
-.snow.snow-lite {
-    top:-100%;
-    animation-name: snowfall_lite;
-}
-@keyframes snowfall_lite {
-    100% { transform: translateY(200%); }
-}
-
 .snow-1.snow-lite {
     width: 1.2rem;
     height: 1.2rem;
     box-shadow: #{$s1_m};
-    animation-duration: 4s;
 }
-.snow-1.alt.snow-lite {
-    animation-delay: 2s;
-}
+
 .snow-2.snow-lite {
     width: 0.9rem;
     height: 0.9rem;
     box-shadow: #{$s2_m};
-    animation-duration: 6s;
-}
-.snow-2.alt.snow-lite {
-    animation-delay: 3s;
 }
 .snow-3.snow-lite {
     width: 0.6rem;
     height: 0.6rem;
     box-shadow: #{$s3_m};
-    animation-duration: 8s;
-}
-.snow-3.alt.snow-lite {
-    animation-delay: 4s;
 }
 
 .hide_snow_form {
