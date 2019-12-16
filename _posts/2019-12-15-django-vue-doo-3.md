@@ -8,7 +8,7 @@ tags:
     - vue
     - REST
     - JWT
-date: 2019-12-13 09:00:00 -0600
+date: 2019-12-15 20:00:00 -0600
 excerpt_separator: <!--more-->
 ---
 
@@ -239,4 +239,4 @@ The output should give you a url which your site is accessible on. Try clicking 
 
 This feels like a good place to stop for this one. Next time we'll try and start talking to our api by making some authentication requests. 
 
-There may be a bit of a delay for the next part, as we're in the run up to Christmas I'm struggling to find as much time to work on this project and there are some improvements to the blog that I want to prioritise, so it'll probably be mid January before we go any further with this one.
+There may be a bit of a delay for the next part, as we're in the run up to Christmas I'm struggling to find as much time to work on this project and there are some improvements to the blog that I want to prioritise, so it'll probably be the end of January before we go any further with this one.
