@@ -38,13 +38,14 @@ nav .social-link:hover {
 #side-nav .logo {
     width: 5rem;
     margin: 0 auto;
+    background-color: white;
+    border-radius: 50%;
+    overflow: hidden;
 }
 #side-nav .logo img {
     width: 100%;
     height: auto;
     padding: .5rem;
-    background-color: white;
-    border-radius: 50%;
 }
 
 #side-nav .navbar-brand {
