@@ -18,6 +18,12 @@ pipeline {
       }
     }
 
+    stage('copy') {
+      steps {
+        sh 'rsync -avzr ./_site/ /deploy/blog/'
+      }
+    }
+
   }
   environment {
     JEKYLL_ENV = 'production'
