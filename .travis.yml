@@ -10,8 +10,7 @@ before_script:
 - echo 'America/Central' | sudo tee /etc/timezone
 - sudo dpkg-reconfigure --frontend noninteractive tzdata
 before_deploy:
-- openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_iv
-  -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+- openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy\_rsa
 - ssh-add /tmp/deploy\_rsa
