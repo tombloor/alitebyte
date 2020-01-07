@@ -1,31 +1,41 @@
 language: ruby
 rvm:
-  - 2.6.3
-
+- 2.6.3
 before_install:
-  - export TZ=America/Central
-
+- openssl aes-256-cbc -K $encrypted_c0f20a007d18_key -iv $encrypted_c0f20a007d18_iv
+  -in deploy_rsa.enc -out deploy_rsa -d
+- export TZ=America/Central
 before_script:
-  - chmod +x ./scripts/cibuild.sh # or do this locally and commit
-  - echo 'America/Central' | sudo tee /etc/timezone
-  - sudo dpkg-reconfigure --frontend noninteractive tzdata
+- chmod +x ./scripts/cibuild.sh
+- echo 'America/Central' | sudo tee /etc/timezone
+- sudo dpkg-reconfigure --frontend noninteractive tzdata
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_0a6446eb3ae3_key -iv $encrypted_0a6446eb3ae3_iv
+  -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/deploy\_rsa
+- ssh-add /tmp/deploy\_rsa
+- echo -e "Host $DEPLOY_HOST\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+script: "./scripts/cibuild.sh"
 
-# Assume bundler is being used, therefore
-# the `install` step will run `bundle install` by default.
-script: ./scripts/cibuild.sh
-
-# branch whitelist, only for GitHub Pages
 branches:
   only:
   - master
 
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: rsync -avz _site/* $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_DIRECTORY
+  on:
+    branch: master
+
 env:
   global:
-  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true # speeds up installation of html-proofer
+  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
   - JEKYLL_ENV=production
-
-cache: bundler # caching bundler gem packages will speed up build
-
-# Optional: disable email notifications about the outcome of your builds
+  - secure: lgyGt2ydR+fNrKBS3JSGSRjP04KnuqY3lFGmd56JZbt2/zC2ujh2QDIUkRVWYp25FUYtQu0T/I8B83NO1oxZuP+rjB3Z0PFE1jPgCi4J+KR+NYZm9mM9mkbVCuTRo3qJTkEywMczEb4JhUysPIHycUVICmu5MFjHjQCwWm0WIw+0hIGkJSYHlzpX8ii5ZREBo8YLxkGOfiN7Dnf04W6oiq0Etc3wyOZZcf4g/vNxNI+TqcScl/C7+WHXGALQcEqWsAC1mw4+j6bG8enUov/nf4J1/81n6E+9qvbMTvcaiAm7bgnQO/jyIVT0MV9YmMpssTGYKzqAVO+XUMubajenKwSXls/iCuS05cgBJUHfyEpjLascd9dW7Gw/aPEPQupx3juKpbhUuLuqJrbK4SdcYQBidnbSQUvAhHOn+U/smqpRTZIinIOP+X96saemuDfZ5jp923kY/2V7VB/TnW9se2UKo+y1gzfNDoxGwygwEx8LwWddTG7pJ5hTyMBRIHngolO+hDvGpZTQU4ByIQEDOBngCIPDwIi+Q026CIdQO7SJ+dsnKU+WHzx7cJ16GyTU4ZsW06O3SbenKfme7MpxK21bQLoDOlGKRbPD693Hd6TJ+PE+CtmGGfKKIdLnEWNon7AqdPscHfSCN8eIt8IS7u3ykuT3w9cop7tiVXAM3sE=
+  - secure: nq8g4w13ZwuJWsWeihsFnZlpqWnm1bC/CkFK1Vtz9X4xKrImSOyIrMKwx5MoAgucB3eqn1cZuxpLnocy7U3YEes3/Ru1HyFS2uOTtz2OIdlLOLW8vbxkXnVydlmeO03vpTmCBUS+rQYy8W1FETR/qle5D/JfuddxMwoNpHAV2sByniKnm84H4b7LBwgrIlJ+lYZiZRAU0qiaDco1+AYQhgISZN3io5KJHQcc8jdHLB6F4+EXTohQwFSJzWqqL3EClYELIuO3IpdH02Dm+kpXiOyFiLg/6Pq8SbLTqd45L+oviLTrmT0gBIQoVNBj0NtoiHVpB0ploS7rF+wLZKtDj2Xl2SiWw4JdvHxF5nuaVuB5IqWuf+g6d5UHVeLgRFzFBF69a8ymRzwqrhcdIqWZERlwadl4AvstxvMKqdhELz5nY6UnMzUkgrsTvQQ/6t+yGV3PngS0GRVe6iemv5NO0Wejp+Js2RR03FnoYouzN0oVvTlur+Ya2GCLHIFBvo9XN+zcgiMMi5bkpr4987PwIY5J82CniNhYfrrm5xKIC+8zbHcOTgJonwsd2k1vG4QzH6BzvM+YG/eXVwkZR0uT75baRjA4v7L9KBF6W81M2fR1Mqr2wW2wZAQ37j35tX7MZplBUlRJkZ6PIHI/2ob5Epyg4wyDTkGu8eget+oMH3E=
+  - secure: GLKALI4QckzKoZH6kNebyNZ7zFiSQwDRe/1zeRSeV/HqSNxGVkbS9PrfrJqZSH7lKhv3BklCTiW0gU8iQSP2vdZgIGjsldWVX3HElLddlu6EH6F+BXqemRauZNI0BxGuiqtpYJUlHohEWw4peRdiRXyEketV4lMinGlc0/eC8KnoO8jP8/14rzxqayQ5kj1FuDezxMKpPwLr0B/yUak2wiYMWGtjrf2pYuXfeiu63/Qz/a4xqi+4qJWYqk/xsXHwEDo/7G7odi6v+eUa4FmcJ/q/4lAq62eBA2vQecoA0cQLzrLi7K+AX3wPYqHQWwj5QlbcHo7UmA0Ii0sFukVHsm4eoP4YoOCOqvSMkIV/K3iDgeYhIW46fgEdvp/jGxtjoe9/R9DqWgnKataf5Gcut8727bYGwm9KYt6yEK5k+VfV49hWT+E/rpGsXAGaMNPmTLRs78ZBzIftA9sZslcYZlPjm88sA20js4y4mkijN3l3wJZsMos9IAho+UejZhccJy+zUZ8ApjsTMAOQn/l5r4WSVt4UpXM1aKlworP+6CAXtOkTDJeICk9Pn+PolLylA/vSdWHSrB3rvoNDWG5Q8jipKZc1LseRUHiTFjXtVKgGz/hz0d3L7L+R8lkwZVDI/Fqq1sk5LJ1yUokky/PNrXTl6wrZXx6b+K3tu90jyq0=
+cache: bundler
 notifications:
   email: true
