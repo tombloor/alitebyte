@@ -1,18 +1,51 @@
-<form>
+{% if jekyll.environment == 'production' %}
+    <form action='https://services.alitebyte.com/comment' method='POST'>
+{% else %}
+    <form action='http://127.0.0.1:4001/comment' method='POST'>
+{% endif %}
     <h3>Leave a Comment</h3>
-    <div class='form-group'>
-        <p>Message</p>
+    <div class='form-row'>
+        <div class='form-group col'>
+            <label for='new-comment-text'>Comment</label>
+            <textarea id='new-comment-text' class='form-control' 
+                        rows='4' maxlength="1000">
+    
+            </textarea>
+            <small class='text-muted form-text'>
+                1000 characters remaining
+            </small>
+        </div>
     </div>
-    <div class='form-group'>
-        <p>Display Name</p>
+    <div class='form-row'>
+        <div class='form-group col-md-6'>
+            <label for='new-comment-name'>Display Name</label>
+            <input type='text' id='new-comment-name' class='form-control' />
+        </div>
+        <div class='form-group col-md-6'>
+            <label for='new-comment-persona'>Persona</label>
+            <input type='text' id='new-comment-persona' class='form-control'
+                placeholder="@Twitter / Github name / Gravicon url" />
+            <small class='text-muted form-text'>
+                This will be used to grab your profile picture. Only the image
+                data will be stored outside of your browser. (More info link)
+            </small>
+        </div>
     </div>
-    <div class='form-group'>
-        <p>Persona</p>
+    <div class='form-row'>
+        <div class='form-group col'>
+            <div class='custom-control custom-checkbox'>
+                <input type="checkbox" class="custom-control-input" 
+                        id="new-comment-anon" />
+                <label class="custom-control-label" for='new-comment-anon'>
+                    I would rather remain anonymous
+                </label>
+            </div>
+        </div>
     </div>
-    <div class='form-group'>
-        <p>Remain Anon</p>
-    </div>
-    <div class='form-group'>
-        <button class='btn btn-primary'>Submit</button>
+    <input type='text' name='address' class='d-none' title='leave blank' />
+    <div class='form-row'>
+        <div class='form-group'>
+            <button type='button' class='btn btn-primary'>Submit</button>
+        </div>
     </div>
 </form>
