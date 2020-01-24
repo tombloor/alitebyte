@@ -1,1 +1,27 @@
-<p>Comments list block</p>
+{% assign 
+    my_comments = (site.comments | where:"perma",page.url  
+                    | sort: 'date') | reverse 
+%}
+
+{% for comment in my_comments %}
+<div class='row mb-4'>
+    <div class='user-persona d-none d-sm-block col-lg-2 col-sm-3'>
+        <img class='img-thumbnail' src="https://via.placeholder.com/150">
+    </div>
+    <div class='col-lg-10 col-sm-9'>
+        <div class='user-comment card'>
+            <div class='card-header'>
+                <strong>
+                    {{ comment.name }}
+                    <small class='ml-2 text-muted'>
+                        {{ comment.date }} (Use js to make me relative)
+                    </small>
+                </strong>
+            </div>
+            <div class='card-body'>
+                {{ comment.content | markdownify }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
