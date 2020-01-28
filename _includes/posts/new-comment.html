@@ -1,10 +1,10 @@
 {% if jekyll.environment == 'production' %}
-    <form id='new-comment-form' action='https://services.alitebyte.com/comment' 
-        method='POST'>
+    {% assign service_url='https://services.alitebyte.com/comment' %}
 {% else %}
-    <form id='new-comment-form' action='http://127.0.0.1:4001/comment' 
-        method='POST'>
+    {% assign service_url='http://127.0.0.1:4001/comment' %}
 {% endif %}
+
+<form id='new-comment-form' action='{{ service_url }}' method='POST'>
     <input type='hidden' name='perma' value='{{ page.url }}' />
     <h3>Leave a Comment</h3>
     <div class='form-row'>
@@ -13,7 +13,7 @@
             <textarea id='new-comment-text' class='form-control' required
                     name='text' rows='4' maxlength="1000"></textarea>
             <small class='text-muted form-text'>
-                0/1000 characters
+                1000 characters remaining
             </small>
         </div>
     </div>
@@ -30,10 +30,10 @@
             </label>
             <input type='text' id='new-comment-persona' class='form-control'
                 name='persona' maxlength="255"
-                placeholder="@Twitter / Github name / Email (Gravatar)" />
+                placeholder="@Twitter / Github username / Email (Gravatar)" />
             <small class='text-muted form-text'>
-                This will be used to grab your profile picture. Only the image
-                data will be stored outside of your browser. (More info link)
+                This will be used to grab your profile picture. Only the 
+                raw image data will be stored outside of your browser.
             </small>
             <img id='persona-preview' class='user-persona' />
         </div>
@@ -49,6 +49,17 @@
             </div>
         </div>
     </div>
+    <!-- <div class='form-row'>
+        <div class='form-group col'>
+            <div class='custom-control custom-checkbox'>
+                <input type="checkbox" class="custom-control-input" 
+                        id="new-comment-remember" />
+                <label class="custom-control-label" for='new-comment-anon'>
+                    Remember my choices
+                </label>
+            </div>
+        </div>
+    </div> -->
     <input type='text' name='address' class='d-none' title='leave blank' />
     <div class='form-row'>
         <div class='form-group'>
@@ -60,6 +71,7 @@
     </div>
 </form>
 
+<script src='/assets/js/md5.js'></script>
 <script type='text/javascript'>
     $(function(){
         let comment_txt = $('#new-comment-text');
@@ -69,6 +81,7 @@
         let btn = $('#new-comment');
         let form = $('#new-comment-form')
         
+        // Handle form changes when remaining anon
         anon_input.on('change', function(){
             let remain_anon = anon_input.prop('checked');
             if (remain_anon) {
@@ -83,6 +96,23 @@
                 $('#new-comment-name').attr('required', 'required');
             }
         });
+
+        // Setup 'remaining characters' counter
+        comment_txt.on('keydown', function(){
+            let len = $(this).val().length;
+            let maxlength = parseInt($(this).attr('maxlength'));
+            let remaining = maxlength - len;
+
+            let txt = remaining.toString();
+            if (remaining == 1) {
+                txt += ' character remaining';
+            } else {
+                txt += ' characters remaining';
+            }
+            $(this).siblings('.text-muted').text(txt);
+        });
+
+        // Setup intent timer for fetching profile image preview
         let persona_intent = null;
         $('#new-comment-persona').on('keyup', function(){
             if (persona_intent != null) {
@@ -92,14 +122,22 @@
             persona_intent = setTimeout(function(){
                 get_persona_image(persona);
             }, 500);
-        })
+        });
+        $(".user-persona img, #persona-preview").on("error", function(){
+            $(this).attr('src', '/assets/img/site/nopersona.png');
+        });
 
+        // Handle ajax form submission
         form.on('submit', function(event){
             event.preventDefault();
-
-            // Post form ajax
-            // Need to get the image again on the server then base64 there
             
+            let service_url = '{{ service_url }}';
+            $.post(service_url, $(this).serialize(), function(data, status){
+                // feedback that comment will be moderated 
+                // disable / remove submit button
+            });
+
+            // Remember my choices implementation
         });
     });
 

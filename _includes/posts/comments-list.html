@@ -6,7 +6,8 @@
 {% for comment in my_comments %}
 <div class='row mb-4'>
     <div class='user-persona d-none d-sm-block col-lg-2 col-sm-3'>
-        <img class='img-thumbnail' src="https://via.placeholder.com/150">
+        <img class='img-thumbnail' src="{{ comment.image }}"
+            onerror="this.onerror=null;this.src='/assets/img/site/nopersona.png'">
     </div>
     <div class='col-lg-10 col-sm-9'>
         <div class='user-comment card'>
@@ -14,7 +15,7 @@
                 <strong>
                     {{ comment.name }}
                     <small class='ml-2 text-muted comment-date'>
-                        {{ comment.date }} (Use js to make me relative)
+                        {{ comment.date }}
                     </small>
                 </strong>
             </div>
@@ -25,3 +26,17 @@
     </div>
 </div>
 {% endfor %}
+
+<script src='/assets/js/timeago.min.js'></script>
+<script type='text/javascript'>
+    $(function(){
+        $.each($('.comment-date'), function(i, el) {
+            let comment_date = $(this).text().trim();
+            let d = Date.parse(comment_date);
+            let ago = timeago.format(d);
+
+            $(this).text(ago);
+            $(this).attr('title', d.toLocaleString());
+        });
+    });
+</script>
