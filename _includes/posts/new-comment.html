@@ -35,7 +35,8 @@
                 This will be used to grab your profile picture. Only the 
                 raw image data will be stored outside of your browser.
             </small>
-            <img id='persona-preview' class='user-persona' />
+            <img id='persona-preview' class='user-persona' width=80 height=80
+                src='/assets/img/site/nopersona.png' />
         </div>
     </div>
     <div class='form-row'>
@@ -70,6 +71,9 @@
         </div>
     </div>
 </form>
+<div id='new-comment-success' class='d-none alert alert-success'>
+    Thanks for your comment! It will be added to the site after moderation.
+</div>
 
 <script src='/assets/js/md5.js'></script>
 <script type='text/javascript'>
@@ -88,9 +92,7 @@
                 $('#new-comment-name').removeAttr('required')
                 persona_inputs.val('');
                 persona_inputs.attr('disabled', 'disabled');
-                persona_preview[0].src = '';
-                persona_preview[0].width = 0;
-                persona_preview[0].height = 0;
+                persona_preview[0].src = '/assets/img/site/nopersona.png';
             } else {
                 persona_inputs.removeAttr('disabled');
                 $('#new-comment-name').attr('required', 'required');
@@ -132,9 +134,9 @@
             event.preventDefault();
             
             let service_url = '{{ service_url }}';
-            $.post(service_url, $(this).serialize(), function(data, status){
-                // feedback that comment will be moderated 
-                // disable / remove submit button
+            $.post(service_url, $(this).serialize(), function(data, status, xhr){
+                form.addClass('d-none');
+                $('#new-comment-success').removeClass('d-none');
             });
 
             // Remember my choices implementation
@@ -159,7 +161,5 @@
 
         let img = $('#persona-preview')[0];
         img.src = url;
-        img.width = 80;
-        img.height = 80;
     }
 </script>
