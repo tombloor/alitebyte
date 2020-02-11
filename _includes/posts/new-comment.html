@@ -1,10 +1,10 @@
 {% if jekyll.environment == 'production' %}
-    {% assign service_url='https://services.alitebyte.com/comment' %}
+    {% assign new_comment_url='https://alitebyte.com/comment' %}
 {% else %}
-    {% assign service_url='http://127.0.0.1:4001/comment' %}
+    {% assign new_comment_url='http://127.0.0.1:4001/comment' %}
 {% endif %}
 
-<form id='new-comment-form' action='{{ service_url }}' method='POST'>
+<form id='new-comment-form' action='{{ new_comment_url }}' method='POST'>
     <input type='hidden' name='perma' value='{{ page.url }}' />
     <h3>Leave a Comment</h3>
     <div class='form-row'>
@@ -74,6 +74,10 @@
 <div id='new-comment-success' class='d-none alert alert-success'>
     Thanks for your comment! It will be added to the site after moderation.
 </div>
+<div id='new-comment-failure' class='d-none alert alert-danger'>
+    Uh oh...That didn't work as expected. Please try again later.
+</div>
+
 
 <script src='/assets/js/md5.js'></script>
 <script type='text/javascript'>
@@ -132,11 +136,19 @@
         // Handle ajax form submission
         form.on('submit', function(event){
             event.preventDefault();
-            
-            let service_url = '{{ service_url }}';
-            $.post(service_url, $(this).serialize(), function(data, status, xhr){
+            let btn = $('#new-comment');
+            btn.attr('disabled', 'disabled');
+            btn.find('.spinner-border').removeClass('d-none');
+
+            let new_comment_url = '{{ new_comment_url }}';
+            $.post(new_comment_url, $(this).serialize(), 
+                function(data, status, xhr){
+                    form.addClass('d-none');
+                    $('#new-comment-success').removeClass('d-none');
+                }
+            ).fail(function() { 
                 form.addClass('d-none');
-                $('#new-comment-success').removeClass('d-none');
+                $('#new-comment-failure').removeClass('d-none');
             });
 
             // Remember my choices implementation
