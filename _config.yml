@@ -53,6 +53,8 @@ responsive_image:
 collections:
   navigation:
     sort_by: order
+  comments:
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
