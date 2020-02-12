@@ -1,0 +1,177 @@
+{% if jekyll.environment == 'production' %}
+    {% assign new_comment_url='https://alitebyte.com/comment' %}
+{% else %}
+    {% assign new_comment_url='http://127.0.0.1:4001/comment' %}
+{% endif %}
+
+<form id='new-comment-form' action='{{ new_comment_url }}' method='POST'>
+    <input type='hidden' name='perma' value='{{ page.url }}' />
+    <h3>Leave a Comment</h3>
+    <div class='form-row'>
+        <div class='form-group col'>
+            <label for='new-comment-text'>Comment</label>
+            <textarea id='new-comment-text' class='form-control' required
+                    name='text' rows='4' maxlength="1000"></textarea>
+            <small class='text-muted form-text'>
+                1000 characters remaining
+            </small>
+        </div>
+    </div>
+    <div class='form-row'>
+        <div class='form-group col-md-6'>
+            <label for='new-comment-name'>Display Name</label>
+            <input type='text' id='new-comment-name' maxlength='50'
+                required name='name' class='form-control' />
+        </div>
+        <div class='form-group col-md-6'>
+            <label for='new-comment-persona'>
+                Persona 
+                <small><em>Optional</em></small>
+            </label>
+            <input type='text' id='new-comment-persona' class='form-control'
+                name='persona' maxlength="255"
+                placeholder="@Twitter / Github username / Email (Gravatar)" />
+            <small class='text-muted form-text'>
+                This will be used to grab your profile picture. Only the 
+                raw image data will be stored outside of your browser.
+            </small>
+            <img id='persona-preview' class='user-persona' width=80 height=80
+                src='/assets/img/site/nopersona.png' />
+        </div>
+    </div>
+    <div class='form-row'>
+        <div class='form-group col'>
+            <div class='custom-control custom-checkbox'>
+                <input type="checkbox" class="custom-control-input" 
+                        id="new-comment-anon" />
+                <label class="custom-control-label" for='new-comment-anon'>
+                    I would rather remain anonymous
+                </label>
+            </div>
+        </div>
+    </div>
+    <!-- <div class='form-row'>
+        <div class='form-group col'>
+            <div class='custom-control custom-checkbox'>
+                <input type="checkbox" class="custom-control-input" 
+                        id="new-comment-remember" />
+                <label class="custom-control-label" for='new-comment-anon'>
+                    Remember my choices
+                </label>
+            </div>
+        </div>
+    </div> -->
+    <input type='text' name='address' class='d-none' title='leave blank' />
+    <div class='form-row'>
+        <div class='form-group'>
+            <button id='new-comment' type='submit' class='btn btn-primary'>
+                <span class='spinner-border spinner-border-sm d-none'></span>
+                Submit
+            </button>
+        </div>
+    </div>
+</form>
+<div id='new-comment-success' class='d-none alert alert-success'>
+    Thanks for your comment! It will be added to the site after moderation.
+</div>
+<div id='new-comment-failure' class='d-none alert alert-danger'>
+    Uh oh...That didn't work as expected. Please try again later.
+</div>
+
+
+<script src='/assets/js/md5.js'></script>
+<script type='text/javascript'>
+    $(function(){
+        let comment_txt = $('#new-comment-text');
+        let persona_inputs = $('#new-comment-name, #new-comment-persona');
+        let persona_preview = $('#persona-preview');
+        let anon_input = $('#new-comment-anon');
+        let btn = $('#new-comment');
+        let form = $('#new-comment-form')
+        
+        // Handle form changes when remaining anon
+        anon_input.on('change', function(){
+            let remain_anon = anon_input.prop('checked');
+            if (remain_anon) {
+                $('#new-comment-name').removeAttr('required')
+                persona_inputs.val('');
+                persona_inputs.attr('disabled', 'disabled');
+                persona_preview[0].src = '/assets/img/site/nopersona.png';
+            } else {
+                persona_inputs.removeAttr('disabled');
+                $('#new-comment-name').attr('required', 'required');
+            }
+        });
+
+        // Setup 'remaining characters' counter
+        comment_txt.on('keydown', function(){
+            let len = $(this).val().length;
+            let maxlength = parseInt($(this).attr('maxlength'));
+            let remaining = maxlength - len;
+
+            let txt = remaining.toString();
+            if (remaining == 1) {
+                txt += ' character remaining';
+            } else {
+                txt += ' characters remaining';
+            }
+            $(this).siblings('.text-muted').text(txt);
+        });
+
+        // Setup intent timer for fetching profile image preview
+        let persona_intent = null;
+        $('#new-comment-persona').on('keyup', function(){
+            if (persona_intent != null) {
+                clearTimeout(persona_intent);
+            }
+            let persona = $(this).val();
+            persona_intent = setTimeout(function(){
+                get_persona_image(persona);
+            }, 500);
+        });
+        $(".user-persona img, #persona-preview").on("error", function(){
+            $(this).attr('src', '/assets/img/site/nopersona.png');
+        });
+
+        // Handle ajax form submission
+        form.on('submit', function(event){
+            event.preventDefault();
+            let btn = $('#new-comment');
+            btn.attr('disabled', 'disabled');
+            btn.find('.spinner-border').removeClass('d-none');
+
+            let new_comment_url = '{{ new_comment_url }}';
+            $.post(new_comment_url, $(this).serialize(), 
+                function(data, status, xhr){
+                    form.addClass('d-none');
+                    $('#new-comment-success').removeClass('d-none');
+                }
+            ).fail(function() { 
+                form.addClass('d-none');
+                $('#new-comment-failure').removeClass('d-none');
+            });
+
+            // Remember my choices implementation
+        });
+    });
+
+    function get_persona_image(persona) {
+        let url = null;
+        if (persona.startsWith('@')) {
+            // Twitter handle
+            url = 'https://twitter.com/';
+            url += persona + '/profile_image?size=normal';
+        } else if (persona.includes('@')) {
+            // Gravatar email
+            url = 'http://www.gravatar.com/avatar/';
+            url += $.md5(persona) + '?s=80';
+        } else {
+            // Github username
+            url = 'https://github.com/';
+            url += persona + '.png?size=80'
+        }
+
+        let img = $('#persona-preview')[0];
+        img.src = url;
+    }
+</script>
