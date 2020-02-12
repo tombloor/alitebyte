@@ -26,3 +26,31 @@ blockquote {
 blockquote p {
     padding: 10px;
 }
+
+.user-persona img {
+    width: 80px;
+    height: 80px;
+}
+
+.user-comment .card-header:after, .user-comment .card-header:before{
+	position:absolute;
+	top:1em;left:-16px;
+	right:100%;
+	width:0;
+	height:0;
+	display:block;
+	content:" ";
+	border-color:transparent;
+	border-style:solid solid outset;
+	pointer-events:none;
+}
+.user-comment .card-header:after{
+	border-width:7px;
+	border-right-color:#f7f7f7;
+	margin-top:1px;
+	margin-left:2px;
+}
+.user-comment .card-header:before{
+	border-right-color:#ddd;
+	border-width:8px;
+}
