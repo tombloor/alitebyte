@@ -27,8 +27,16 @@ Let's get started with bandit level 4, ssh into the challenge as normal and ente
 tom@alitebyte:~# ssh bandit4@bandit.labs.overthewire.org -p 2220
 ```
 
+In this challenge we are told that the solution is in the only human-readable file in the `inhere` directory. Now you could sit there and `cat` each file in that directory until you find the right one, but that's not going to cut it when dealing with more than just a handful of files.
 
+The `file` command will attempt to figure out the type of whatever file we point it at. For example, if we pass the first file in the `inhere` directory to the `file` command:
+
+(EXAMPLE HERE)
+
+So now we just have to run the `file` command against all the files we're interested in and see which one returns a human-readable format.
 
 ```sh
-bandit0@bandit:~$ cat readme
+bandit4@bandit:~$ file inhere/*
 ```
+
+(DOES THIS ACTUALLY WORK BY ITSELF? OR DO WE REALLY NEED TO PIPE THE FIND)

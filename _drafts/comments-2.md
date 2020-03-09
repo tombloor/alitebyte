@@ -30,3 +30,5 @@ service.
 - Server side app GitHub integration
 
 - Client side form
+
+- Spam prevention (Once I actually implement this)
