@@ -64,6 +64,7 @@
     <input type='text' name='address' class='d-none' title='leave blank' />
     <div class='form-row'>
         <div class='form-group'>
+            <input id='addresstest' aria-hidden='true' type='text' name='address' class='d-none' />
             <button id='new-comment' type='submit' class='btn btn-primary'>
                 <span class='spinner-border spinner-border-sm d-none'></span>
                 Submit
@@ -136,6 +137,9 @@
         // Handle ajax form submission
         form.on('submit', function(event){
             event.preventDefault();
+            let spam_check = $('#addresstest').val();
+            if (spam_check == '') return;
+            
             let btn = $('#new-comment');
             btn.attr('disabled', 'disabled');
             btn.find('.spinner-border').removeClass('d-none');
