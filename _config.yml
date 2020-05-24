@@ -77,3 +77,7 @@ exclude:
   #- vendor/gems/
   #- vendor/ruby/
   - assets/src
+  - Dockerfile
+  - .dockerignore
+  - docker-compose.yml
+  - scripts
