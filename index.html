@@ -28,7 +28,9 @@ title: Home
         let infinite_loading = $('#infinite-loading');
         let infinite_url = '/latest/page';
 
-        let infinite = new InfiniteScroll(infinite_container, infinite_loading, infinite_url);
+        let infinite = new InfiniteScroll(
+            infinite_container, infinite_loading, infinite_url
+        );
 
         $(document).on('scroll', function(){
             let padding = 10;
@@ -36,7 +38,7 @@ title: Home
             let current_pos = $(window).scrollTop() + $(window).height();
 
             if (current_pos + padding >= end_pos) {
-                infinite._show_loading();
+                infinite.get_next_page();
             }            
         });
     });

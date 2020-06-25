@@ -8,23 +8,45 @@ class InfiniteScroll {
         this._hide_loading();
     }
 
-    _show_loading = function() {
+    _show_loading() {
         this.loading_element.show();
     }
 
-    _hide_loading = function() {
+    _hide_loading() {
         this.loading_element.hide();
     }
 
-    _fetch_page = function(page_number) {
-
+    _add_posts(posts) {
+        this.content_container.append(posts);
     }
 
-    _add_posts = function(posts) {
-
+    _fetch_page(url) {
+        let scroller = this;
+        $.ajax({
+            'url': url,
+            'dataType': 'html',
+            'success': function(data) {
+                let posts = $(data).find('.post-summary');
+                console.log(posts.length + ' posts loaded');
+                if (posts.length > 0) { 
+                    scroller._add_posts(posts);
+                    scroller.current_page++;
+                    scroller._hide_loading();
+                }
+            },
+            'error': function(message, status, xhr) {
+                // This means the next page wasn't found. Later we'll disable 
+                // the infinite scroll as we've reached the end
+            }
+        });
     }
 
-    get_next_page = function() {
+    get_next_page() {
+        this._show_loading();
 
+        let next_page = this.current_page + 1;
+        let url = this.base_url + next_page;
+
+        this._fetch_page(url);
     }
 }

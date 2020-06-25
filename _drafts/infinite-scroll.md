@@ -110,7 +110,11 @@ bottom. I've also added a little bit of padding just incase the sizes don't quit
 behave differently).
 
 Once we've checked that this is working, we can start writing some logic that will fetch the next page and append it to 
-the list of posts. This is a list of requirements for this feature:
+the list of posts. 
+
+## Getting the next page 
+
+This is a list of requirements for this feature:
 
 - Keep track of the latest page that was loaded.
 - Show some visual feedback that the end of the page has been reached and more data is being loaded.
@@ -132,11 +136,11 @@ class InfiniteScroll {
         this._hide_loading();
     }
 
-    _show_loading = function() {
+    _show_loading() {
         this.loading_element.show();
     }
 
-    _hide_loading = function() {
+    _hide_loading() {
         this.loading_element.hide();
     }
 }
@@ -160,7 +164,9 @@ Let's add this to our index page:
         let infinite_loading = $('#infinite-loading');
         let infinite_url = '/latest/page';
 
-        let infinite = new InfiniteScroll(infinite_container, infinite_loading, infinite_url);
+        let infinite = new InfiniteScroll(
+            infinite_container, infinite_loading, infinite_url
+        );
 
         $(document).on('scroll', function(){
             let padding = 10;
@@ -174,3 +180,63 @@ Let's add this to our index page:
     });
 </script>
 ```
+
+Now if we scroll to the bottom of our page we'll see the loading indicator appear. Let's start working on the logic to 
+load the next pages of posts. Add a new function to the `InfiniteScroll` class called `get_next_page` and update the 
+scroll event to call this instead of `_show_loading`. This function will decide which page we need to get next, and 
+construct the url. It will then call a different function to actually make the request, but let's not get ahead of 
+ourselves.
+
+```
+get_next_page() {
+    this._show_loading();
+
+    let next_page = this.current_page + 1;
+    let url = this.base_url + next_page;
+
+    this._fetch_page(url);
+}
+```
+
+You'll probably have noticed that we're calling two other functions that we haven't added yet, `_fetch_page` and 
+`_add_posts`. `_fetch_page` will make the web request and return the new posts, `_add_posts` will then add those posts 
+to the list.
+
+```
+class InfiniteScroll {
+...
+    _add_posts(posts) {
+        this.content_container.append(posts);
+    }
+    
+    _fetch_page(url) {
+        let scroller = this;
+        $.ajax({
+            'url': url,
+            'dataType': 'html',
+            'success': function(data) {
+                let posts = $(data).find('.post-summary');
+                console.log(posts.length + ' posts loaded');
+                if (posts.length > 0) { 
+                    scroller._add_posts(posts);
+                    scroller.current_page++;
+                    scroller._hide_loading();
+                }
+            },
+            'error': function(message, status, xhr) {
+                // This means the next page wasn't found. Later we'll disable 
+                // the infinite scroll as we've reached the end
+            }
+        });
+    }
+}
+```
+
+At this point you should be able to load up your page and see it in action. 
+
+## Optimisations
+
+For the most part, our infinite scroller is now working, however there are still some more changes we need to make. 
+We'll probably want to add some way to disable the scroller when it runs out of content, otherwise we'll be making lots 
+of unnessesary requests. We'll also want to add some logic to make sure we're only sending out one request at a time, 
+otherwise we could end up getting duplicate posts added to the list.
