@@ -31,7 +31,6 @@ class InfiniteScroll {
             'dataType': 'html',
             'success': function(data) {
                 let posts = $(data).find('.post-summary');
-                console.log(posts.length + ' posts loaded');
                 if (posts.length > 0) { 
                     scroller._add_posts(posts);
                     scroller.current_page++;
