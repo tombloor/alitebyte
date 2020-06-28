@@ -40,3 +40,5 @@ gem "jekyll-sitemap", "~> 1.3"
 gem "jekyll-seo-tag", "~> 2.6"
 
 gem "html-proofer"
+
+gem "jekyll-paginate"
