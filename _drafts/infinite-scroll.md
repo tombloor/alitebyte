@@ -223,7 +223,7 @@ class InfiniteScroll {
                     scroller._hide_loading();
                 }
             },
-            'error': function(message, status, xhr) {
+            'error': function(xhr, ajaxOptions, thrownError) {
                 // This means the next page wasn't found. Later we'll disable 
                 // the infinite scroll as we've reached the end
             }
@@ -240,3 +240,94 @@ For the most part, our infinite scroller is now working, however there are still
 We'll probably want to add some way to disable the scroller when it runs out of content, otherwise we'll be making lots 
 of unnessesary requests. We'll also want to add some logic to make sure we're only sending out one request at a time, 
 otherwise we could end up getting duplicate posts added to the list.
+
+Let's start by adding a way to disable the infinite scroller when we run out of content. We'll add a property called
+`is_active` and use this to determine if we should be making requests for new posts.
+
+```
+class InfiniteScroll {
+    constructor(content_container, loading_element, base_url) {
+        ...
+        this.is_active = true;
+        ...
+    }
+
+    _fetch_page(url) {
+        $.ajax({
+            ...
+            'error': function(xhr, ajaxOptions, thrownError) {
+                scroller.is_active = false;
+                scroller._hide_loading();
+            }
+        });
+    }
+
+    get_next_page() {
+        if (this.is_active) {
+            this._show_loading();
+
+            let next_page = this.current_page + 1;
+            let url = this.base_url + next_page;
+
+            this._fetch_page(url);
+        }
+    }
+}
+```
+
+Now whenever our ajax call returns a 404 error, meaning there are no more pages to load, we disable the scroller.
+
+Finally I think it's a good idea to add a safeguard to make sure we're not trying to fetch the same page more than once,
+this could result in us having duplicate posts and other weirdness. A simple way to do this is to add another boolean 
+which is set to `true` when we start requesting data, and is set to `false` when we've received it. Then we can check 
+this variable is false before starting another request.
+
+```
+class InfiniteScroll {
+        ...
+        this.is_loading = false;
+        ...
+    }
+
+    _fetch_page(url) {
+        let scroller = this;
+        $.ajax({
+            'url': url,
+            'dataType': 'html',
+            'success': function(data) {
+                let posts = $(data).find('.post-summary');
+                console.log(posts.length + ' posts loaded');
+                if (posts.length > 0) { 
+                    scroller._add_posts(posts);
+                    scroller.current_page++;
+                    scroller._hide_loading();
+                }
+                scroller.is_loading = false;
+            },
+            'error': function(xhr, ajaxOptions, thrownError) {
+                if (xhr.status == "404") {
+                    scroller.is_active = false;
+                    scroller.is_loading = false;
+                    scroller._hide_loading();
+                }
+            }
+        });
+    }
+
+    get_next_page() {
+        if (this.is_active && !this.is_loading) {
+            this.is_loading = true;
+            this._show_loading();
+
+            let next_page = this.current_page + 1;
+            let url = this.base_url + next_page;
+
+            this._fetch_page(url);
+        }
+    }
+}
+```
+
+And there we have the core functionality of the infinite scroller that I'm using on this site. I will obviously be 
+polishing it a bit more and making it fit in with the rest of the site, but this same approach could be used on other
+jekyll sites with minimal changes.
