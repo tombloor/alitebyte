@@ -3,10 +3,11 @@ layout: default
 title: Home
 ---
 
-<h1 class='display-2 d-none d-lg-block'>
-    Latest Posts
-</h1>
-{% for post in site.posts %}
+<div id='infinite-container'>
+    <h1 class='display-2 d-none d-lg-block'>
+        Latest Posts
+    </h1>
+{% for post in paginator.posts %}
     <div class='post-summary'>
         <a class='post-heading' href='{{ post.url }}'>
             {% include posts/heading.html date=post.date title=post.title %}
@@ -15,3 +16,35 @@ title: Home
         <a href='{{ post.url }}'>Read More...</a>
     </div>
 {% endfor %}
+</div>
+<div id='infinite-loading' class='text-center text-muted mt-4'>
+    <div class='spinner-border'>
+        <span class="sr-only">Loading...</span>
+    </div>
+    <p class='font-weight-bold mt-2'>
+        Looking for more awesome content...
+    </p>
+</div>
+
+<script type='text/javascript' src='/assets/js/infinite-scroll.js'></script>
+<script type="text/javascript">
+    $(function() {
+        let infinite_container = $('#infinite-container');
+        let infinite_loading = $('#infinite-loading');
+        let infinite_url = '/latest/page';
+
+        let infinite = new InfiniteScroll(
+            infinite_container, infinite_loading, infinite_url
+        );
+
+        $(document).on('scroll', function(){
+            let padding = 10;
+            let end_pos = $(document).height();
+            let current_pos = $(window).scrollTop() + $(window).height();
+
+            if (current_pos + padding >= end_pos) {
+                infinite.get_next_page();
+            }            
+        });
+    });
+</script>

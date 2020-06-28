@@ -36,6 +36,7 @@ plugins:
   - jekyll-responsive-image
   - jekyll-sitemap
   - jekyll-seo-tag
+  - jekyll-paginate
 
 permalink: /:year/:month/:day/:title/
 
@@ -81,3 +82,6 @@ exclude:
   - .dockerignore
   - docker-compose.yml
   - scripts
+
+paginate: 5
+paginate_path: "/latest/page:num/"
