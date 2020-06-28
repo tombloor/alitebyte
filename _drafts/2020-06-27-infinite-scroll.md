@@ -7,7 +7,7 @@ tags:
     - blogging
     - jekyll
     - alitebyte
-date: 2020-06-11 22:56:00 -0500
+date: 2020-06-27 23:35:00 -0500
 ---
 
 I don't post as much as I should, but I recently decided to implement an infinite scroll system to stop my front page 
