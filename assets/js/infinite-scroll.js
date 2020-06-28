@@ -54,7 +54,7 @@ class InfiniteScroll {
             this._show_loading();
 
             let next_page = this.current_page + 1;
-            let url = this.base_url + next_page;
+            let url = this.base_url + next_page + '/';
 
             this._fetch_page(url);
         }
