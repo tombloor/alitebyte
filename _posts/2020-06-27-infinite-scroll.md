@@ -2,11 +2,9 @@
 title: "ALiteByte Infinite Scroll"
 slug: "infinite-scroll"
 layout: post
-categories: web-dev
+categories: web-develpment
 tags: 
-    - blogging
     - jekyll
-    - alitebyte
 date: 2020-06-27 23:35:00 -0500
 ---
 

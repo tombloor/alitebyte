@@ -2,11 +2,9 @@
 title: "Taking a bite out of Jekyll - Part 3"
 slug: "taking-a-bite-jekyll-3"
 layout: post
-categories: web-dev
+categories: web-development
 tags: 
-    - blogging
     - jekyll
-    - alitebyte
 date: 2019-10-21 19:59:00 -0500
 excerpt_separator: <!--more-->
 ---
