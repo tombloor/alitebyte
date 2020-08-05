@@ -28,6 +28,8 @@ url: "https://alitebyte.com" # the base hostname & protocol for your site, e.g. 
 github_username:  tombloor
 linkedin_username: tom-bloor
 
+timezone: "America/Chicago"
+
 # Build settings
 #theme: minima
 plugins:

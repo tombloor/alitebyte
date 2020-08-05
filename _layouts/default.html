@@ -56,6 +56,9 @@
                     <div class='social-links'>
                         {% include social.html %}
                     </div>
+                    <footer>
+                        <small class='text-white'>Updated: {{ site.time | date:"%-d %B %Y %T %Z" }}</small>
+                    </footer>
                 </div>
             </nav>
             <div class='container'>
@@ -64,9 +67,6 @@
                         {{ content }}
                     </div>
                 </div>
-                <footer>
-                    <small class='text-muted'>Site build time: {{ site.time | date:"%c" }}</small>
-                </footer>
             </div>
         </div>
         {% include cookie-consent.html %}
