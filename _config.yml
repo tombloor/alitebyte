@@ -57,6 +57,8 @@ collections:
   navigation:
     sort_by: order
   comments:
+  projects:
+      sort_by: date
 
 
 # Exclude from processing.

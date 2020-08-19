@@ -1,0 +1,23 @@
+---
+layout: default
+title: Projects
+---
+
+<div>
+    <h1 class='display-2 d-none d-lg-block'>
+        My Projects
+    </h1>
+{% for project in site.projects reversed %}
+    <div class='post-summary'>
+        <h2>
+            <a class='post-heading' href='{{ project.link }}' target='_blank'>
+                {{ project.title }}
+            </a>
+        </h2>
+        {{ project.content }}
+        <a href='{{ project.link }}' target='_blank'>Check out {{ project.title }}</a>
+    </div>
+{% endfor %}
+    <p>I'm always working on new stuff. Check back and see what's new.</p>
+</div>
+
