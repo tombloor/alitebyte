@@ -1,5 +1,5 @@
 ---
-title: "ALiteByte Infinite Scroll"
+title: "LiteByte Infinite Scroll"
 slug: "infinite-scroll"
 layout: post
 categories: web-develpment

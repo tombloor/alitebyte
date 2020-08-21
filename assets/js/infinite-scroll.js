@@ -44,7 +44,8 @@ class InfiniteScroll {
                     scroller.is_loading = false;
                     scroller._hide_loading();
                 }
-            }
+            },
+            'cache': false
         });
     }
 
