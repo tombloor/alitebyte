@@ -7,6 +7,11 @@ title: Projects
     <h1 class='display-2 d-none d-lg-block'>
         My Projects
     </h1>
+    <p>
+        Take a look through some of the stuff I've been working on. Usually my projects
+        are based around me learning something new, or trying to better understand something
+        that interests me.
+    </p>
 {% for project in site.projects reversed %}
     <div class='post-summary'>
         <h2>
@@ -15,9 +20,24 @@ title: Projects
             </a>
         </h2>
         {{ project.content }}
-        <a href='{{ project.link }}' target='_blank'>Check out {{ project.title }}</a>
+        
+        {% if project.images.size > 0 %}
+            <div class='row gallery-set'>
+            {% for image in project.images %}
+            <div class='project-image gallery-image col-md-4 mb-4'>
+                {% assign path = 'assets/img/projects/' | append: image %}
+                {% responsive_image_block %}
+                    path: {{ path }}
+                    class: 'img-fluid img-thumbnail'
+                    alt: {{ image }}
+                {% endresponsive_image_block %}
+            </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+
+        <a href='{{ project.link }}' class='btn btn-secondary' target='_blank'>Check out {{ project.title }}</a>
     </div>
 {% endfor %}
-    <p>I'm always working on new stuff. Check back and see what's new.</p>
 </div>
 
