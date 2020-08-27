@@ -28,6 +28,8 @@ url: "https://litebyte.xyz" # the base hostname & protocol for your site, e.g. h
 github_username:  tombloor
 linkedin_username: tom-bloor
 
+timezone: "America/Chicago"
+
 # Build settings
 #theme: minima
 plugins:
@@ -55,6 +57,8 @@ collections:
   navigation:
     sort_by: order
   comments:
+  projects:
+      sort_by: date
 
 
 # Exclude from processing.

@@ -17,6 +17,7 @@
         <script src='/assets/js/jquery-3.4.1.min.js'></script>
         <script src='/assets/js/popper.min.js'></script>
         <script src='/assets/js/bootstrap.min.js'></script>
+        <script src='/assets/js/gallery.js'></script>
     </head>
     <body>
         <nav id='top-nav' class='d-flex d-md-none navbar navbar-expand-md navbar-dark'>
@@ -56,6 +57,9 @@
                     <div class='social-links'>
                         {% include social.html %}
                     </div>
+                    <footer>
+                        <small class='text-white'>Updated: {{ site.time | date:"%-d %B %Y %T %Z" }}</small>
+                    </footer>
                 </div>
             </nav>
             <div class='container'>
@@ -64,11 +68,9 @@
                         {{ content }}
                     </div>
                 </div>
-                <footer>
-                    <small class='text-muted'>Site build time: {{ site.time | date:"%c" }}</small>
-                </footer>
             </div>
         </div>
+        {% include image-gallery.html %}
         {% include cookie-consent.html %}
         {% include seasonal.html %}
     </body>

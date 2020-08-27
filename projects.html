@@ -1,0 +1,55 @@
+---
+layout: default
+title: Projects
+---
+
+<div>
+    <h1 class='display-2 d-none d-lg-block'>
+        My Projects
+    </h1>
+    <p class='lead mt-4'>
+        Take a look through some of the stuff I've been working on.
+
+        Usually my projects are based around me learning something new,
+        or trying to better understand something that interests me.
+    </p>
+{% for project in site.projects reversed %}
+    <div class='post-summary card'>
+        <div class='card-body'>
+        <h3 class='card-title'>
+            <p class='post-heading'>
+                {{ project.title }}
+            </p>
+        </h3>
+        <h5 class='card-subtitle text-muted mb-2'>{{ project.subtitle }}</h5>
+
+        <p class='card-text'>{{ project.content }}</p>
+        
+        {% if project.images.size > 0 %}
+            <div class='row gallery-set'>
+            {% for image in project.images %}
+            <div class='project-image gallery-image col-md-4 mb-4'>
+                {% assign path = 'assets/img/projects/' | append: image %}
+                {% responsive_image_block %}
+                    path: {{ path }}
+                    class: 'img-fluid img-thumbnail'
+                    alt: {{ image }}
+                {% endresponsive_image_block %}
+            </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% if project.link %}
+            <a href='{{ project.link }}' class='btn btn-secondary' target='_blank'>Go to {{ project.title }}</a>
+        {% endif %}
+        {% if project.github %}
+            <a href='{{ project.github }}' class='btn btn-secondary' target='_blank'>
+                <span class='fab fa-github'></span>
+                View on GitHub
+            </a>
+        {% endif %}
+        </div>
+    </div>
+{% endfor %}
+</div>
+
