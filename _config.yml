@@ -21,7 +21,8 @@
 title: A Lite Byte
 email: contact@litebyte.xyz
 description: >- # this means to ignore newlines until "baseurl:"
-  A programmers brain dump.
+  A programmers brain dump. Join me on my journey to better understanding new
+  technologies and how they can be used in the world of Software Development.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://litebyte.xyz" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: alitebyte
