@@ -7,14 +7,14 @@ categories:
     - game-development
 tags:
     - Vue.js
-date: 2020-08-11 23:00:00 -0500
+date: 2020-09-04 20:38:00 -0500
 ---
 
 Advanced Javascript UI frameworks are all the rage right now and there are plenty
 of options to choose between when picking which one to try out. In this post
 I'll be introducing you to a little project I put together while learning the
 basics of `Vue.Js` and the reason why I picked this particular framework over
-it's main competetor `React.Js`.
+it's main competetor `React`.
 
 ## What is Vue.js
 
@@ -232,5 +232,5 @@ with `React` at some point. I'm especially interested in trying to get something
 working cross platform, as both a desktop application using electron and a mobile
 app using vue-native. But there I go trying to run before I can walk again, it's
 probably best I just stop typing now before I talk myself into a colossal project
-that'll never make it out of my `WIP` pile.
+that'll never make it out of my WIP pile.
 
